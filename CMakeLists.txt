@@ -17,6 +17,8 @@ if (EMSCRIPTEN)
     set(VCPKG_TARGET_TRIPLET "wasm32-emscripten")
 endif()
 
+find_package(SDL3 CONFIG REQUIRED)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
@@ -42,11 +44,21 @@ if (EMSCRIPTEN)
         --preload-file resources/
     )
 
+    target_link_libraries(
+        main PRIVATE
+        SDL3::SDL3
+    )
+
     set_target_properties(main PROPERTIES SUFFIX ".html")
 
     file(COPY ${PROJECT_SOURCE_DIR}/resources DESTINATION ${CMAKE_BINARY_DIR})
 
 else()
+
+    target_link_libraries(
+        main PRIVATE
+        SDL3::SDL3
+    )
 
     add_custom_command(
         TARGET main POST_BUILD
