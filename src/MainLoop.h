@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SDL3/SDL.h>
-#include "shogi/Board.h"
 
 class MainLoop {
 public:
@@ -25,6 +24,4 @@ private:
 
     Uint32 mTicksCount = 0;
     bool mIsRunning = true;
-
-    Board board;
 };

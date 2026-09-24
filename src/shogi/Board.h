@@ -18,5 +18,6 @@ private:
 public:
     void Reset();
 
+    std::string DebugString();
     void DebugPrint();
 };

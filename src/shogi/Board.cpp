@@ -1,5 +1,6 @@
 #include "Board.h"
 
+#include <sstream>
 #include <iostream>
 
 void Board::Reset()
@@ -62,21 +63,30 @@ void Board::Reset()
     mKomadaiWhite.clear();
 }
 
-void Board::DebugPrint()
+std::string Board::DebugString()
 {
-    std::cout << "ーーーーーーーーーーーーーーーーーー" << std::endl;
+    std::stringstream ss;
+
+    ss << std::endl;
+    ss << "ーーーーーーーーーーーーーーーーーー" << std::endl;
     for (int i = 0; i < 9; ++i) {
-        std::cout << "｜";
+        ss << "｜";
         for (int j = 8; j >= 0; --j) {
             auto koma = mMasume[i][j];
             if (koma) {
-                std::cout << koma->ToString();
+                ss << koma->ToString();
             } else {
-                std::cout << "　";
+                ss << "　";
             }
-            std::cout << "｜";
+            ss << "｜";
         }
-        std::cout << std::endl;
-        std::cout << "ーーーーーーーーーーーーーーーーーー" << std::endl;
+        ss << std::endl;
+        ss << "ーーーーーーーーーーーーーーーーーー" << std::endl;
     }
+    return ss.str();
+}
+
+void Board::DebugPrint()
+{
+    std::cout << DebugString() << std::endl;
 }
