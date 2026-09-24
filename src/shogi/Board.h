@@ -2,8 +2,17 @@
 
 #include <array>
 #include <vector>
+#include <utility>
 
 #include "Koma.h"
+
+// TODO: handle komadai and nari or etc..
+struct MoveCommand {
+    std::pair<int, int> origin;
+    std::pair<int, int> destination;
+    KomaType type;
+    Direction direction;
+};
 
 /**
  * 盤
@@ -17,6 +26,8 @@ private:
 
 public:
     void Reset();
+
+    void Move(const MoveCommand& command);
 
     std::string DebugString();
     void DebugPrint();

@@ -63,6 +63,35 @@ void Board::Reset()
     mKomadaiWhite.clear();
 }
 
+void Board::Move(const MoveCommand& command)
+{
+    auto& origin = command.origin;
+    auto& destination = command.destination;
+    auto& type = command.type;
+
+    auto koma = mMasume[origin.second][origin.first];
+    if (!koma || koma->Type() != type) {
+        std::cout << "Illegal command" << std::endl;
+        return;
+    }
+
+    auto targetKoma = mMasume[destination.second][destination.first];
+    if (targetKoma) {
+        if (targetKoma->Direction() == command.direction) {
+            std::cout << "Illegal command" << std::endl;
+            return;
+        }
+        if (command.direction == Direction::Black) {
+            mKomadaiBlack.push_back(targetKoma);
+        } else {
+            mKomadaiWhite.push_back(targetKoma);
+        }
+    }
+
+    mMasume[origin.second][origin.first] = nullptr;
+    mMasume[destination.second][destination.first] = koma;
+}
+
 std::string Board::DebugString()
 {
     std::stringstream ss;

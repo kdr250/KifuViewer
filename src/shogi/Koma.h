@@ -49,6 +49,16 @@ public:
         return std::make_shared<Koma>(type, direction);
     }
 
+    inline KomaType Type() const
+    {
+        return mType;
+    }
+
+    inline Direction Direction() const
+    {
+        return mDirection;
+    }
+
     /**
      * 文字にする
      */
