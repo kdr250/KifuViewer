@@ -37,6 +37,9 @@ bool MainLoop::Initialize()
 
     mTicksCount = SDL_GetTicks();
 
+    board.Reset();
+    board.DebugPrint();
+
     return true;
 }
 

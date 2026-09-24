@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
 /**
  * 駒の種類
@@ -23,15 +24,30 @@ enum class KomaType {
 };
 
 /**
+ * 向き
+ */
+enum class Direction {
+    Black, // 先手側
+    White, // 後手側
+};
+
+/**
  * 駒
  */
 class Koma {
 private:
     KomaType mType;
+    Direction mDirection;
 
 public:
-    inline Koma(KomaType type)
-        : mType(type) { };
+    inline Koma(KomaType type, Direction direction)
+        : mType(type)
+        , mDirection(direction) { };
+
+    inline static std::shared_ptr<Koma> New(KomaType type, Direction direction)
+    {
+        return std::make_shared<Koma>(type, direction);
+    }
 
     /**
      * 文字にする
@@ -109,3 +125,5 @@ public:
         }
     }
 };
+
+using KomaRef = std::shared_ptr<Koma>;
