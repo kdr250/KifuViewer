@@ -109,26 +109,69 @@ public:
     /**
      * 成る
      */
-    inline KomaType Naru()
+    inline void Naru()
     {
         switch (mType) {
             case KomaType::Fu:
-                return KomaType::Tokin;
+                mType = KomaType::Tokin;
+                break;
 
             case KomaType::Kyo:
-                return KomaType::NariKyo;
+                mType = KomaType::NariKyo;
+                break;
 
             case KomaType::Keima:
-                return KomaType::NariKei;
+                mType = KomaType::NariKei;
+                break;
 
             case KomaType::Gin:
-                return KomaType::NariGin;
+                mType = KomaType::NariGin;
+                break;
 
             case KomaType::Hisha:
-                return KomaType::Ryu;
+                mType = KomaType::Ryu;
+                break;
 
             case KomaType::Kaku:
-                return KomaType::Uma;
+                mType = KomaType::Uma;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 取る
+     */
+    inline void Toru()
+    {
+        mDirection = mDirection == Direction::Black ? Direction::White : Direction::Black;
+
+        switch (mType) {
+            case KomaType::Tokin:
+                mType = KomaType::Fu;
+                break;
+
+            case KomaType::NariKyo:
+                mType = KomaType::Kyo;
+                break;
+
+            case KomaType::NariKei:
+                mType = KomaType::Keima;
+                break;
+
+            case KomaType::NariGin:
+                mType = KomaType::Gin;
+                break;
+
+            case KomaType::Ryu:
+                mType = KomaType::Hisha;
+                break;
+
+            case KomaType::Uma:
+                mType = KomaType::Kaku;
+                break;
 
             default:
                 break;

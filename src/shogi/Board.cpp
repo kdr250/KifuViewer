@@ -81,6 +81,7 @@ void Board::Move(const MoveCommand& command)
             std::cout << "Illegal command" << std::endl;
             return;
         }
+        targetKoma->Toru();
         if (command.direction == Direction::Black) {
             mKomadaiBlack.push_back(targetKoma);
         } else {
