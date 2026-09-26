@@ -28,6 +28,7 @@ public:
     void Reset();
 
     void Move(const MoveCommand& command);
+    void Move(const std::vector<MoveCommand>& commands);
 
     std::string DebugString();
     void DebugPrint();

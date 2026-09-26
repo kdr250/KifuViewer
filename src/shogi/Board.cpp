@@ -1,5 +1,6 @@
 #include "Board.h"
 
+#include <map>
 #include <sstream>
 #include <iostream>
 
@@ -93,11 +94,28 @@ void Board::Move(const MoveCommand& command)
     mMasume[destination.second][destination.first] = koma;
 }
 
+void Board::Move(const std::vector<MoveCommand>& commands)
+{
+    for (auto& command : commands) {
+        Move(command);
+    }
+}
+
 std::string Board::DebugString()
 {
     std::stringstream ss;
-
     ss << std::endl;
+
+    std::map<std::string, int> komadai;
+    for (auto& koma : mKomadaiWhite) {
+        komadai[koma->ToString()] += 1;
+    }
+    ss << "後: ";
+    for (auto& [komaName, count] : komadai) {
+        ss << komaName << "x" << count << " ";
+    }
+    ss << std::endl;
+
     ss << "ーーーーーーーーーーーーーーーーーー" << std::endl;
     for (int i = 0; i < 9; ++i) {
         ss << "｜";
@@ -113,6 +131,17 @@ std::string Board::DebugString()
         ss << std::endl;
         ss << "ーーーーーーーーーーーーーーーーーー" << std::endl;
     }
+
+    komadai.clear();
+    for (auto& koma : mKomadaiBlack) {
+        komadai[koma->ToString()] += 1;
+    }
+    ss << "先: ";
+    for (auto& [komaName, count] : komadai) {
+        ss << komaName << "x" << count << " ";
+    }
+    ss << std::endl;
+
     return ss.str();
 }
 
