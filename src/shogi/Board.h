@@ -8,8 +8,8 @@
 
 // TODO: handle komadai and nari or etc..
 struct MoveCommand {
-    std::pair<int, int> origin;
-    std::pair<int, int> destination;
+    std::pair<char, char> origin;
+    std::pair<char, char> destination;
     KomaType type;
     Direction direction;
 };
