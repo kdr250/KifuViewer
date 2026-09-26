@@ -169,7 +169,19 @@ bool Board::Replay()
 
 void Board::Back()
 {
+    if (mSavedCommands.empty()) {
+        return;
+    }
     mSavedCommands.pop_back();
+}
+
+void Board::Back(int count)
+{
+    if (mSavedCommands.size() <= count) {
+        mSavedCommands.clear();
+        return;
+    }
+    mSavedCommands.erase(mSavedCommands.end() - count, mSavedCommands.end());
 }
 
 std::string Board::DebugString()

@@ -38,6 +38,7 @@ public:
     bool Replay();
 
     void Back();
+    void Back(int count);
 
     std::string DebugString();
     void DebugPrint();
