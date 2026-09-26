@@ -27,12 +27,24 @@ private:
     std::vector<KomaRef> mKomadaiBlack; // 先手の駒台
     std::vector<KomaRef> mKomadaiWhite; // 後手の駒台
 
+    std::vector<MoveCommand> mSavedCommands;
+
 public:
+    void Initialize();
+
+    void Add(const MoveCommand& command);
+    void Add(const std::vector<MoveCommand>& commands);
+
+    bool Replay();
+
+    void Back();
+
+    std::string DebugString();
+    void DebugPrint();
+
+private:
     void Reset();
 
     bool Move(const MoveCommand& command);
     bool Move(const std::vector<MoveCommand>& commands);
-
-    std::string DebugString();
-    void DebugPrint();
 };

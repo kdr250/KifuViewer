@@ -29,7 +29,7 @@ TEST(Board, Reset)
 )";
 
     Board board;
-    board.Reset();
+    board.Initialize();
     std::string actual = board.DebugString();
 
     EXPECT_EQ(expected, actual);
@@ -62,7 +62,7 @@ TEST(Board, Move)
 )";
 
     Board board;
-    board.Reset();
+    board.Initialize();
 
     MoveCommand command {
         .origin = std::make_pair(6, 6),
@@ -70,10 +70,55 @@ TEST(Board, Move)
         .type = KomaType::Fu,
         .direction = Direction::Black,
     };
-    board.Move(command);
+    board.Add(command);
+    board.Replay();
 
     std::string actual = board.DebugString();
 
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(Board, IllegalMove)
+{
+    std::string expected = R"(
+後: 
+ーーーーーーーーーーーーーーーーーー
+｜香｜桂｜銀｜金｜玉｜金｜銀｜桂｜香｜
+ーーーーーーーーーーーーーーーーーー
+｜　｜飛｜　｜　｜　｜　｜　｜角｜　｜
+ーーーーーーーーーーーーーーーーーー
+｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜
+ーーーーーーーーーーーーーーーーーー
+｜　｜　｜　｜　｜　｜　｜　｜　｜　｜
+ーーーーーーーーーーーーーーーーーー
+｜　｜　｜　｜　｜　｜　｜　｜　｜　｜
+ーーーーーーーーーーーーーーーーーー
+｜　｜　｜　｜　｜　｜　｜　｜　｜　｜
+ーーーーーーーーーーーーーーーーーー
+｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜
+ーーーーーーーーーーーーーーーーーー
+｜　｜角｜　｜　｜　｜　｜　｜飛｜　｜
+ーーーーーーーーーーーーーーーーーー
+｜香｜桂｜銀｜金｜玉｜金｜銀｜桂｜香｜
+ーーーーーーーーーーーーーーーーーー
+先: 
+)";
+
+    Board board;
+    board.Initialize();
+
+    MoveCommand command {
+        .origin = std::make_pair(4, 4),
+        .destination = std::make_pair(4, 3),
+        .type = KomaType::Fu,
+        .direction = Direction::Black,
+    };
+    board.Add(command);
+    bool result = board.Replay();
+
+    std::string actual = board.DebugString();
+
+    EXPECT_FALSE(result);
     EXPECT_EQ(expected, actual);
 }
 
@@ -104,7 +149,7 @@ TEST(Board, Toru)
 )";
 
     Board board;
-    board.Reset();
+    board.Initialize();
 
     std::vector<MoveCommand> commands = {
         {
@@ -139,7 +184,8 @@ TEST(Board, Toru)
         },
     };
 
-    board.Move(commands);
+    board.Add(commands);
+    board.Replay();
 
     std::string actual = board.DebugString();
 
@@ -173,7 +219,7 @@ TEST(Board, Naru)
 )";
 
     Board board;
-    board.Reset();
+    board.Initialize();
 
     std::vector<MoveCommand> commands = {
         {
@@ -197,7 +243,8 @@ TEST(Board, Naru)
         },
     };
 
-    board.Move(commands);
+    board.Add(commands);
+    board.Replay();
 
     std::string actual = board.DebugString();
 
@@ -231,7 +278,7 @@ TEST(Board, NaruAndToru)
 )";
 
     Board board;
-    board.Reset();
+    board.Initialize();
 
     std::vector<MoveCommand> commands = {
         {
@@ -261,7 +308,8 @@ TEST(Board, NaruAndToru)
         },
     };
 
-    board.Move(commands);
+    board.Add(commands);
+    board.Replay();
 
     std::string actual = board.DebugString();
 
@@ -295,7 +343,7 @@ TEST(Board, Komadai)
 )";
 
     Board board;
-    board.Reset();
+    board.Initialize();
 
     std::vector<MoveCommand> commands = {
         {
@@ -337,33 +385,34 @@ TEST(Board, Komadai)
         },
     };
 
-    board.Move(commands);
+    board.Add(commands);
+    board.Replay();
 
     std::string actual = board.DebugString();
 
     EXPECT_EQ(expected, actual);
 }
 
-TEST(Board, IllegalMove)
+TEST(Board, Back)
 {
     std::string expected = R"(
-後: 
+後: 角x1 
 ーーーーーーーーーーーーーーーーーー
-｜香｜桂｜銀｜金｜玉｜金｜銀｜桂｜香｜
+｜香｜桂｜銀｜金｜玉｜金｜　｜桂｜香｜
 ーーーーーーーーーーーーーーーーーー
-｜　｜飛｜　｜　｜　｜　｜　｜角｜　｜
+｜　｜飛｜　｜　｜　｜　｜　｜銀｜　｜
 ーーーーーーーーーーーーーーーーーー
-｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜
+｜歩｜歩｜歩｜歩｜歩｜歩｜　｜歩｜歩｜
 ーーーーーーーーーーーーーーーーーー
-｜　｜　｜　｜　｜　｜　｜　｜　｜　｜
+｜　｜　｜　｜　｜　｜　｜歩｜　｜　｜
 ーーーーーーーーーーーーーーーーーー
-｜　｜　｜　｜　｜　｜　｜　｜　｜　｜
+｜　｜　｜　｜　｜　｜角｜　｜　｜　｜
 ーーーーーーーーーーーーーーーーーー
-｜　｜　｜　｜　｜　｜　｜　｜　｜　｜
+｜　｜　｜歩｜　｜　｜　｜　｜　｜　｜
 ーーーーーーーーーーーーーーーーーー
-｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜
+｜歩｜歩｜　｜歩｜歩｜歩｜歩｜歩｜歩｜
 ーーーーーーーーーーーーーーーーーー
-｜　｜角｜　｜　｜　｜　｜　｜飛｜　｜
+｜　｜　｜　｜　｜　｜　｜　｜飛｜　｜
 ーーーーーーーーーーーーーーーーーー
 ｜香｜桂｜銀｜金｜玉｜金｜銀｜桂｜香｜
 ーーーーーーーーーーーーーーーーーー
@@ -371,18 +420,53 @@ TEST(Board, IllegalMove)
 )";
 
     Board board;
-    board.Reset();
+    board.Initialize();
 
-    MoveCommand command {
-        .origin = std::make_pair(4, 4),
-        .destination = std::make_pair(4, 3),
-        .type = KomaType::Fu,
-        .direction = Direction::Black,
+    std::vector<MoveCommand> commands = {
+        {
+            .origin = std::make_pair(6, 6),
+            .destination = std::make_pair(6, 5),
+            .type = KomaType::Fu,
+            .direction = Direction::Black,
+        },
+        {
+            .origin = std::make_pair(2, 2),
+            .destination = std::make_pair(2, 3),
+            .type = KomaType::Fu,
+            .direction = Direction::White,
+        },
+        {
+            .origin = std::make_pair(7, 7),
+            .destination = std::make_pair(1, 1),
+            .type = KomaType::Kaku,
+            .direction = Direction::Black,
+            .isNaru = true,
+        },
+        {
+            .origin = std::make_pair(2, 0),
+            .destination = std::make_pair(1, 1),
+            .type = KomaType::Gin,
+            .direction = Direction::White,
+        },
+        {
+            .origin = MoveCommand::KOMADAI_BLACK,
+            .destination = std::make_pair(3, 4),
+            .type = KomaType::Kaku,
+            .direction = Direction::Black,
+        },
+        {
+            .origin = MoveCommand::KOMADAI_WHITE,
+            .destination = std::make_pair(5, 4),
+            .type = KomaType::Kaku,
+            .direction = Direction::White,
+        },
     };
-    bool result = board.Move(command);
+
+    board.Add(commands);
+    board.Back();
+    board.Replay();
 
     std::string actual = board.DebugString();
 
-    EXPECT_FALSE(result);
     EXPECT_EQ(expected, actual);
 }
