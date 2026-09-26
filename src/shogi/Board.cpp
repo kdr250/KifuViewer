@@ -69,11 +69,15 @@ void Board::Move(const MoveCommand& command)
     auto& origin = command.origin;
     auto& destination = command.destination;
     auto& type = command.type;
+    bool isNaru = command.isNaru;
 
     auto koma = mMasume[origin.second][origin.first];
     if (!koma || koma->Type() != type) {
         std::cout << "Illegal command" << std::endl;
         return;
+    }
+    if (isNaru) {
+        koma->Naru();
     }
 
     auto targetKoma = mMasume[destination.second][destination.first];

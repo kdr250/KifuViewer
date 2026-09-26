@@ -142,12 +142,10 @@ public:
     }
 
     /**
-     * 取る
+     * 表にする
      */
-    inline void Toru()
+    inline void Omote()
     {
-        mDirection = mDirection == Direction::Black ? Direction::White : Direction::Black;
-
         switch (mType) {
             case KomaType::Tokin:
                 mType = KomaType::Fu;
@@ -176,6 +174,15 @@ public:
             default:
                 break;
         }
+    }
+
+    /**
+     * 取る
+     */
+    inline void Toru()
+    {
+        mDirection = mDirection == Direction::Black ? Direction::White : Direction::Black;
+        Omote();
     }
 };
 

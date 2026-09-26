@@ -12,6 +12,7 @@ struct MoveCommand {
     std::pair<char, char> destination;
     KomaType type;
     Direction direction;
+    bool isNaru = false;
 };
 
 /**
