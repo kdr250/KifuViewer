@@ -6,6 +6,9 @@
 
 void Board::Reset()
 {
+    mKomadaiBlack.clear();
+    mKomadaiWhite.clear();
+
     for (int i = 0; i < 9; ++i) {
         for (int j = 0; j < 9; ++j) {
             mMasume[i][j] = nullptr;
@@ -59,9 +62,6 @@ void Board::Reset()
     mMasume[8][6] = Koma::New(KomaType::Gin, Direction::Black);
     mMasume[8][7] = Koma::New(KomaType::Keima, Direction::Black);
     mMasume[8][8] = Koma::New(KomaType::Kyo, Direction::Black);
-
-    mKomadaiBlack.clear();
-    mKomadaiWhite.clear();
 }
 
 void Board::Move(const MoveCommand& command)
