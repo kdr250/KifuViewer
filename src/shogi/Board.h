@@ -2,6 +2,7 @@
 
 #include <array>
 #include <vector>
+#include <span>
 #include <utility>
 
 #include "Koma.h"
@@ -32,13 +33,17 @@ private:
 public:
     void Initialize();
 
-    void Add(const MoveCommand& command);
-    void Add(const std::vector<MoveCommand>& commands);
+    void Push(const MoveCommand& command);
+    void Push(const std::vector<MoveCommand>& commands);
+
+    void Pop();
+    void Pop(unsigned int count);
 
     bool Replay();
+    bool Replay(unsigned int limit);
 
     void Back();
-    void Back(int count);
+    void Back(unsigned int count);
 
     std::string DebugString();
     void DebugPrint();
@@ -47,5 +52,5 @@ private:
     void Reset();
 
     bool Move(const MoveCommand& command);
-    bool Move(const std::vector<MoveCommand>& commands);
+    bool Move(const std::span<MoveCommand>& commands);
 };

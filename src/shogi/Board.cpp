@@ -11,14 +11,31 @@ void Board::Initialize()
     Reset();
 }
 
-void Board::Add(const MoveCommand& command)
+void Board::Push(const MoveCommand& command)
 {
     mSavedCommands.push_back(command);
 }
 
-void Board::Add(const std::vector<MoveCommand>& commands)
+void Board::Push(const std::vector<MoveCommand>& commands)
 {
     mSavedCommands.insert(mSavedCommands.end(), commands.begin(), commands.end());
+}
+
+void Board::Pop()
+{
+    if (mSavedCommands.empty()) {
+        return;
+    }
+    mSavedCommands.pop_back();
+}
+
+void Board::Pop(unsigned int count)
+{
+    if (mSavedCommands.size() <= count) {
+        mSavedCommands.clear();
+        return;
+    }
+    mSavedCommands.erase(mSavedCommands.end() - count, mSavedCommands.end());
 }
 
 void Board::Reset()
@@ -151,7 +168,7 @@ bool Board::Move(const MoveCommand& command)
     return true;
 }
 
-bool Board::Move(const std::vector<MoveCommand>& commands)
+bool Board::Move(const std::span<MoveCommand>& commands)
 {
     for (auto& command : commands) {
         if (!Move(command)) {
@@ -167,6 +184,13 @@ bool Board::Replay()
     return Move(mSavedCommands);
 }
 
+bool Board::Replay(unsigned int limit)
+{
+    Reset();
+    std::span<MoveCommand> commands(mSavedCommands.data(), limit);
+    return Move(commands);
+}
+
 void Board::Back()
 {
     if (mSavedCommands.empty()) {
@@ -175,7 +199,7 @@ void Board::Back()
     mSavedCommands.pop_back();
 }
 
-void Board::Back(int count)
+void Board::Back(unsigned int count)
 {
     if (mSavedCommands.size() <= count) {
         mSavedCommands.clear();
