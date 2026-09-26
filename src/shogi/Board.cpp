@@ -1,5 +1,6 @@
 #include "Board.h"
 
+#include <algorithm>
 #include <map>
 #include <sstream>
 #include <iostream>
@@ -71,6 +72,40 @@ void Board::Move(const MoveCommand& command)
     auto& type = command.type;
     bool isNaru = command.isNaru;
 
+    // 駒台
+    if (origin == MoveCommand::KOMADAI_BLACK) {
+        auto iter = std::find_if(mKomadaiBlack.begin(), mKomadaiBlack.end(), [type](auto& koma) {
+            return koma->Type() == type;
+        });
+        if (iter == mKomadaiBlack.end()) {
+            std::cout << "Illegal command" << std::endl;
+            return;
+        }
+        if (mMasume[destination.second][destination.first]) {
+            std::cout << "Illegal command" << std::endl;
+            return;
+        }
+        mMasume[destination.second][destination.first] = *iter;
+        mKomadaiBlack.erase(iter);
+        return;
+    } else if (origin == MoveCommand::KOMADAI_WHITE) {
+        auto iter = std::find_if(mKomadaiWhite.begin(), mKomadaiWhite.end(), [type](auto& koma) {
+            return koma->Type() == type;
+        });
+        if (iter == mKomadaiWhite.end()) {
+            std::cout << "Illegal command" << std::endl;
+            return;
+        }
+        if (mMasume[destination.second][destination.first]) {
+            std::cout << "Illegal command" << std::endl;
+            return;
+        }
+        mMasume[destination.second][destination.first] = *iter;
+        mKomadaiWhite.erase(iter);
+        return;
+    }
+
+    // 盤上
     auto koma = mMasume[origin.second][origin.first];
     if (!koma || koma->Type() != type) {
         std::cout << "Illegal command" << std::endl;
