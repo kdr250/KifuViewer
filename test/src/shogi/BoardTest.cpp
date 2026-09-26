@@ -343,3 +343,46 @@ TEST(Board, Komadai)
 
     EXPECT_EQ(expected, actual);
 }
+
+TEST(Board, IllegalMove)
+{
+    std::string expected = R"(
+後: 
+ーーーーーーーーーーーーーーーーーー
+｜香｜桂｜銀｜金｜玉｜金｜銀｜桂｜香｜
+ーーーーーーーーーーーーーーーーーー
+｜　｜飛｜　｜　｜　｜　｜　｜角｜　｜
+ーーーーーーーーーーーーーーーーーー
+｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜
+ーーーーーーーーーーーーーーーーーー
+｜　｜　｜　｜　｜　｜　｜　｜　｜　｜
+ーーーーーーーーーーーーーーーーーー
+｜　｜　｜　｜　｜　｜　｜　｜　｜　｜
+ーーーーーーーーーーーーーーーーーー
+｜　｜　｜　｜　｜　｜　｜　｜　｜　｜
+ーーーーーーーーーーーーーーーーーー
+｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜歩｜
+ーーーーーーーーーーーーーーーーーー
+｜　｜角｜　｜　｜　｜　｜　｜飛｜　｜
+ーーーーーーーーーーーーーーーーーー
+｜香｜桂｜銀｜金｜玉｜金｜銀｜桂｜香｜
+ーーーーーーーーーーーーーーーーーー
+先: 
+)";
+
+    Board board;
+    board.Reset();
+
+    MoveCommand command {
+        .origin = std::make_pair(4, 4),
+        .destination = std::make_pair(4, 3),
+        .type = KomaType::Fu,
+        .direction = Direction::Black,
+    };
+    bool result = board.Move(command);
+
+    std::string actual = board.DebugString();
+
+    EXPECT_FALSE(result);
+    EXPECT_EQ(expected, actual);
+}

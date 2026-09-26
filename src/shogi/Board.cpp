@@ -65,7 +65,7 @@ void Board::Reset()
     mMasume[8][8] = Koma::New(KomaType::Kyo, Direction::Black);
 }
 
-void Board::Move(const MoveCommand& command)
+bool Board::Move(const MoveCommand& command)
 {
     auto& origin = command.origin;
     auto& destination = command.destination;
@@ -79,37 +79,37 @@ void Board::Move(const MoveCommand& command)
         });
         if (iter == mKomadaiBlack.end()) {
             std::cout << "Illegal command" << std::endl;
-            return;
+            return false;
         }
         if (mMasume[destination.second][destination.first]) {
             std::cout << "Illegal command" << std::endl;
-            return;
+            return false;
         }
         mMasume[destination.second][destination.first] = *iter;
         mKomadaiBlack.erase(iter);
-        return;
+        return true;
     } else if (origin == MoveCommand::KOMADAI_WHITE) {
         auto iter = std::find_if(mKomadaiWhite.begin(), mKomadaiWhite.end(), [type](auto& koma) {
             return koma->Type() == type;
         });
         if (iter == mKomadaiWhite.end()) {
             std::cout << "Illegal command" << std::endl;
-            return;
+            return false;
         }
         if (mMasume[destination.second][destination.first]) {
             std::cout << "Illegal command" << std::endl;
-            return;
+            return false;
         }
         mMasume[destination.second][destination.first] = *iter;
         mKomadaiWhite.erase(iter);
-        return;
+        return true;
     }
 
     // 盤上
     auto koma = mMasume[origin.second][origin.first];
     if (!koma || koma->Type() != type) {
         std::cout << "Illegal command" << std::endl;
-        return;
+        return false;
     }
     if (isNaru) {
         koma->Naru();
@@ -119,7 +119,7 @@ void Board::Move(const MoveCommand& command)
     if (targetKoma) {
         if (targetKoma->Direction() == command.direction) {
             std::cout << "Illegal command" << std::endl;
-            return;
+            return false;
         }
         targetKoma->Toru();
         if (command.direction == Direction::Black) {
@@ -131,13 +131,18 @@ void Board::Move(const MoveCommand& command)
 
     mMasume[origin.second][origin.first] = nullptr;
     mMasume[destination.second][destination.first] = koma;
+
+    return true;
 }
 
-void Board::Move(const std::vector<MoveCommand>& commands)
+bool Board::Move(const std::vector<MoveCommand>& commands)
 {
     for (auto& command : commands) {
-        Move(command);
+        if (!Move(command)) {
+            return false;
+        }
     }
+    return true;
 }
 
 std::string Board::DebugString()

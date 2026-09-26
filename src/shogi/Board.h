@@ -30,8 +30,8 @@ private:
 public:
     void Reset();
 
-    void Move(const MoveCommand& command);
-    void Move(const std::vector<MoveCommand>& commands);
+    bool Move(const MoveCommand& command);
+    bool Move(const std::vector<MoveCommand>& commands);
 
     std::string DebugString();
     void DebugPrint();
