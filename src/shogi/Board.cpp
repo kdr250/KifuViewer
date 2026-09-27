@@ -5,22 +5,6 @@
 #include <sstream>
 #include <iostream>
 
-void Board::Initialize()
-{
-    mSavedCommands.clear();
-    Reset();
-}
-
-void Board::Add(const MoveCommand& command)
-{
-    mSavedCommands.push_back(command);
-}
-
-void Board::Add(const std::vector<MoveCommand>& commands)
-{
-    mSavedCommands.insert(mSavedCommands.end(), commands.begin(), commands.end());
-}
-
 void Board::Reset()
 {
     mKomadaiBlack.clear();
@@ -159,17 +143,6 @@ bool Board::Move(const std::vector<MoveCommand>& commands)
         }
     }
     return true;
-}
-
-bool Board::Replay()
-{
-    Reset();
-    return Move(mSavedCommands);
-}
-
-void Board::Back()
-{
-    mSavedCommands.pop_back();
 }
 
 std::string Board::DebugString()
