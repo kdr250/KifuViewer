@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "Koma.h"
-#include "Kifu.h"
+#include "MoveCommand.h"
 
 /**
  * 盤
