@@ -12,9 +12,9 @@ class Kifu {
 public:
     Kifu(const std::vector<MoveCommand>& commands);
 
-    std::span<MoveCommand> GetCurrentCommands();
+    std::span<MoveCommand> GetMoveCommands();
 
 private:
     std::vector<MoveCommand> mCommands;
-    int mLastIndex = -1;
+    int mLastIndex;
 };

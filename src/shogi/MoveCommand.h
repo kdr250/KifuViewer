@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include "Koma.h"
 
 /**
@@ -14,4 +15,13 @@ struct MoveCommand {
 
     static constexpr std::pair<char, char> KOMADAI_BLACK = std::make_pair(CHAR_MIN, CHAR_MIN);
     static constexpr std::pair<char, char> KOMADAI_WHITE = std::make_pair(CHAR_MAX, CHAR_MAX);
+
+    inline bool operator==(const MoveCommand& other) const
+    {
+        return origin == other.origin
+            && destination == other.destination
+            && type == other.type
+            && direction == other.direction
+            && isNaru == other.isNaru;
+    }
 };

@@ -2,11 +2,11 @@
 
 Kifu::Kifu(const std::vector<MoveCommand>& commands)
     : mCommands(commands)
-    , mLastIndex(commands.size() - 1)
+    , mLastIndex(0)
 {
 }
 
-std::span<MoveCommand> Kifu::GetCurrentCommands()
+std::span<MoveCommand> Kifu::GetMoveCommands()
 {
     // TODO: 分岐を扱えるようにする
     std::span<MoveCommand> result(mCommands.data(), mLastIndex + 1);
