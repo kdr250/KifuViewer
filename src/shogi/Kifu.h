@@ -14,7 +14,10 @@ public:
 
     std::span<MoveCommand> GetMoveCommands();
 
+    void Forward(unsigned int num = 1);
+    void Backward(unsigned int num = 1);
+
 private:
     std::vector<MoveCommand> mCommands;
-    int mLastIndex;
+    unsigned int mLastIndex;
 };
