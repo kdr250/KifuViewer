@@ -135,7 +135,7 @@ bool Board::Move(const MoveCommand& command)
     return true;
 }
 
-bool Board::Move(const std::vector<MoveCommand>& commands)
+bool Board::Move(const std::span<MoveCommand>& commands)
 {
     for (auto& command : commands) {
         if (!Move(command)) {

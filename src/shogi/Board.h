@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <span>
 #include <vector>
 #include <utility>
 
@@ -21,7 +22,7 @@ public:
     void Reset();
 
     bool Move(const MoveCommand& command);
-    bool Move(const std::vector<MoveCommand>& commands);
+    bool Move(const std::span<MoveCommand>& commands);
 
     std::string DebugString();
     void DebugPrint();
