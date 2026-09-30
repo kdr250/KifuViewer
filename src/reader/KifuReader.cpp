@@ -1,6 +1,7 @@
 #include "KifuReader.h"
 
 #include <algorithm>
+#include <array>
 #include <string>
 #include <fstream>
 #include <sstream>
