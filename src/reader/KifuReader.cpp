@@ -70,5 +70,20 @@ MoveCommand KifuReader::Parse(const std::string& move)
 {
     MoveCommand result;
     // TODO: parse move into command
+
+    // Example
+    // #include <iostream>
+    // #include <string>
+    // #include <locale>
+    // int main()
+    // {
+    //     std::setlocale(LC_ALL, "");
+    //     std::wstring str = L"7六歩";
+    //     for (wchar_t ch : str) {
+    //         std::wcout << ch << std::endl;
+    //     }
+    //     return 0;
+    // }
+
     return MoveCommand();
 }
