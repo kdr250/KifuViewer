@@ -1,6 +1,10 @@
 #include "StringConverter.h"
 
+#ifdef _WIN32
+typedef unsigned char u_char;
+#endif
 #include <iconv.h>
+
 #include <sstream>
 
 std::string StringConverter::Encode(const std::string& input, std::string inputCode, std::string outputCode)
@@ -36,21 +40,17 @@ std::string StringConverter::Encode(const std::string& input, std::string inputC
     size_t strInLength = inputLength;
     size_t strOutLength = inputLength * 4; // 変換後のバイト数がどうなるか分からない。1バイトが4バイトになることを考慮しておく。
 
-    char strIn[strInLength + 1];
-    char strOut[strOutLength + 1];
-
-    memset(strIn, 0, sizeof(strIn));
-    memset(strOut, 0, sizeof(strOut));
+    std::vector<char> strIn(strInLength + 1, 0);
+    std::vector<char> strOut(strOutLength + 1, 0);
 
     // const u_char -> char
     for (size_t i = 0; i < inputLength; ++i) {
-
         strIn[i] = (char)inputString[i];
     }
 
     // iconvに渡すのは、charの配列の先頭を指すポインタ、のポインタ。
-    char* ptrIn = strIn;
-    char* ptrOut = strOut;
+    char* ptrIn = strIn.data();
+    char* ptrOut = strOut.data();
 
     errno = 0;
 
@@ -70,7 +70,7 @@ std::string StringConverter::Encode(const std::string& input, std::string inputC
         return ("");
     } else {
         iconv_close(ic);
-        return (strOut);
+        return (strOut.data());
     }
 }
 
