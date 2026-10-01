@@ -45,4 +45,4 @@ else()
 
 endif()
 
-gtest_discover_tests(testmain)
+gtest_discover_tests(testmain WORKING_DIRECTORY $<TARGET_FILE_DIR:testmain>)
