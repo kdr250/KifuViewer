@@ -98,7 +98,7 @@ size_t GetUTF8CharLength(unsigned char loadingByte)
     return 1; // 不正なバイトの場合はフォールバック
 }
 
-TEST(Iconv, Encode)
+TEST(Iconv, EncodeSJISToUTF8)
 {
     std::string expected = "   1 ２六歩(27)   ( 0:00/00:00:00)";
 
@@ -106,30 +106,46 @@ TEST(Iconv, Encode)
     ASSERT_TRUE(in.is_open());
 
     std::stringstream ss;
-    std::string line;
-    while (std::getline(in, line)) {
-        ss << line;
-    }
+    ss << in.rdbuf();
     std::string target = ss.str();
 
     std::string actual = Encode(reinterpret_cast<const unsigned char*>(target.c_str()), target.size(), "SHIFT_JIS", "UTF-8");
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(Iconv, SplitCharacters)
+{
+    std::string expected[] = { "２", "六", "歩", "(", "2", "7", ")" };
+
+    std::ifstream in("resources/kifu/test.kif");
+    ASSERT_TRUE(in.is_open());
+
+    std::stringstream ss;
+    ss << in.rdbuf();
+    std::string target = ss.str();
+
+    std::string utf8Str = Encode(reinterpret_cast<const unsigned char*>(target.c_str()), target.size(), "SHIFT_JIS", "UTF-8");
+
+    ss.str(utf8Str);
+    ss.clear();
+    std::string id, move;
+    ss >> id >> move;
+
+    std::vector<std::string> actual;
 
     // 1文字ずつに分割
-    for (size_t i = 0; i < actual.size();) {
+    for (size_t i = 0; i < move.size();) {
         // 現在の文字のバイト数を取得
-        size_t length = GetUTF8CharLength(static_cast<unsigned char>(actual[i]));
+        size_t length = GetUTF8CharLength(static_cast<unsigned char>(move[i]));
 
         // 1文字分(漢字なら通常3バイト分)を切り出す
-        std::string singleChar = actual.substr(i, length);
+        std::string singleChar = move.substr(i, length);
 
-        // 出力
-        std::cout << singleChar << std::endl;
+        actual.push_back(singleChar);
 
         // 次の文字のインデックスへ進める
         i += length;
     }
 
-    std::cout << std::endl;
-
-    EXPECT_EQ(expected, actual);
+    EXPECT_THAT(actual, testing::ElementsAreArray(expected));
 }
