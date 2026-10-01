@@ -1,29 +1,24 @@
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
+#include "StringConverter.h"
 
 #include <iconv.h>
-
-#include <string>
-#include <fstream>
 #include <sstream>
 
-std::string Encode(const u_char* inputString, size_t inputLength, std::string inputCode, std::string outputCode)
+std::string StringConverter::Encode(const std::string& input, std::string inputCode, std::string outputCode)
 {
+    const u_char* inputString = reinterpret_cast<const unsigned char*>(input.c_str());
+    size_t inputLength = input.size();
 
-    if (inputString == NULL) {
-
+    if (inputString == nullptr) {
         fprintf(stderr, "input string is empty.\n");
         return ("");
     }
 
     if (inputLength == 0) {
-
         fprintf(stderr, "input length is zero.\n");
         return ("");
     }
 
     if (inputCode.empty()) {
-
         // iconvに文字列判定機能は無い。
         // 入力した文字列の文字コードを与える必要がある。
         fprintf(stderr, "input code is empty.\n");
@@ -31,9 +26,8 @@ std::string Encode(const u_char* inputString, size_t inputLength, std::string in
     }
 
     if (outputCode.empty()) {
-
         // 変換したい文字コードが無い場合は、
-        // ひとまず、自分の環境の文字コードに変換されるようにしておく。
+        // ひとまず、UTF-8にしておく。
         outputCode = "UTF-8";
     }
 
@@ -63,7 +57,6 @@ std::string Encode(const u_char* inputString, size_t inputLength, std::string in
     ic = iconv_open(outputCode.c_str(), inputCode.c_str());
 
     if (errno) {
-
         fprintf(stderr, "iconv_open failed. %s\n", strerror(errno));
         return ("");
     }
@@ -72,19 +65,16 @@ std::string Encode(const u_char* inputString, size_t inputLength, std::string in
     iconv(ic, &ptrIn, &strInLength, &ptrOut, &strOutLength);
 
     if (errno) {
-
         fprintf(stderr, "iconv failed. %s\n", strerror(errno));
-
         iconv_close(ic);
         return ("");
     } else {
-
         iconv_close(ic);
         return (strOut);
     }
 }
 
-size_t GetUTF8CharLength(unsigned char loadingByte)
+size_t StringConverter::GetUTF8CharLength(unsigned char loadingByte)
 {
     if ((loadingByte & 0x80) == 0x00)
         return 1; // ASCII
@@ -97,48 +87,17 @@ size_t GetUTF8CharLength(unsigned char loadingByte)
     return 1; // 不正なバイトの場合はフォールバック
 }
 
-TEST(Iconv, EncodeSJISToUTF8)
+std::vector<std::string> StringConverter::Split(const std::string& utf8Str)
 {
-    std::string expected = "   1 ２六歩(27)   ( 0:00/00:00:00)";
-
-    std::ifstream in("resources/kifu/test.kif");
-    ASSERT_TRUE(in.is_open());
-
-    std::stringstream ss;
-    ss << in.rdbuf();
-    std::string target = ss.str();
-
-    std::string actual = Encode(reinterpret_cast<const unsigned char*>(target.c_str()), target.size(), "SHIFT_JIS", "UTF-8");
-    EXPECT_EQ(expected, actual);
-}
-
-TEST(Iconv, SplitCharacters)
-{
-    std::string expected[] = { "２", "六", "歩", "(", "2", "7", ")" };
-
-    std::ifstream in("resources/kifu/test.kif");
-    ASSERT_TRUE(in.is_open());
-
-    std::stringstream ss;
-    ss << in.rdbuf();
-    std::string target = ss.str();
-
-    std::string utf8Str = Encode(reinterpret_cast<const unsigned char*>(target.c_str()), target.size(), "SHIFT_JIS", "UTF-8");
-
-    ss.str(utf8Str);
-    ss.clear();
-    std::string id, move;
-    ss >> id >> move;
-
     std::vector<std::string> actual;
 
     // 1文字ずつに分割
-    for (size_t i = 0; i < move.size();) {
+    for (size_t i = 0; i < utf8Str.size();) {
         // 現在の文字のバイト数を取得
-        size_t length = GetUTF8CharLength(static_cast<unsigned char>(move[i]));
+        size_t length = GetUTF8CharLength(static_cast<unsigned char>(utf8Str[i]));
 
         // 1文字分(漢字なら通常3バイト分)を切り出す
-        std::string singleChar = move.substr(i, length);
+        std::string singleChar = utf8Str.substr(i, length);
 
         actual.push_back(singleChar);
 
@@ -146,5 +105,5 @@ TEST(Iconv, SplitCharacters)
         i += length;
     }
 
-    EXPECT_THAT(actual, testing::ElementsAreArray(expected));
+    return actual;
 }
