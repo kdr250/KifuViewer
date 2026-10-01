@@ -10,6 +10,28 @@ void Shogi::SetKifu(const std::shared_ptr<Kifu>& kifu)
     mKifu = kifu;
 }
 
+void Shogi::First()
+{
+    if (mKifu == nullptr) {
+        return;
+    }
+    mKifu->First();
+    std::span<MoveCommand> commands = mKifu->GetMoveCommands();
+    mBoard.Reset();
+    mBoard.Move(commands);
+}
+
+void Shogi::Last()
+{
+    if (mKifu == nullptr) {
+        return;
+    }
+    mKifu->Last();
+    std::span<MoveCommand> commands = mKifu->GetMoveCommands();
+    mBoard.Reset();
+    mBoard.Move(commands);
+}
+
 void Shogi::Forward(unsigned int num)
 {
     if (mKifu == nullptr) {

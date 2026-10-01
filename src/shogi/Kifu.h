@@ -14,6 +14,9 @@ public:
 
     std::span<MoveCommand> GetMoveCommands();
 
+    void First();
+    void Last();
+
     void Forward(unsigned int num = 1);
     void Backward(unsigned int num = 1);
 

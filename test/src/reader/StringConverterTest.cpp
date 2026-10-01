@@ -8,7 +8,7 @@ TEST(StringConverter, EncodeSJISToUTF8)
 {
     std::string expected = "   1 ２六歩(27)   ( 0:00/00:00:00)";
 
-    std::ifstream in("resources/kifu/test.kif");
+    std::ifstream in("resources/kifu/one_line.kif");
     ASSERT_TRUE(in.is_open());
 
     std::stringstream ss;
@@ -23,7 +23,7 @@ TEST(StringConverter, SplitCharacters)
 {
     std::string expected[] = { "２", "六", "歩", "(", "2", "7", ")" };
 
-    std::ifstream in("resources/kifu/test.kif");
+    std::ifstream in("resources/kifu/one_line.kif");
     ASSERT_TRUE(in.is_open());
 
     std::stringstream ss;

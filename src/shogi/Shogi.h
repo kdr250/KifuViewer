@@ -14,6 +14,9 @@ public:
 
     void SetKifu(const std::shared_ptr<Kifu>& kifu);
 
+    void First();
+    void Last();
+
     void Forward(unsigned int num = 1);
     void Backward(unsigned int num = 1);
 

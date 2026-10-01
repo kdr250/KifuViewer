@@ -184,6 +184,62 @@ public:
         mDirection = mDirection == Direction::Black ? Direction::White : Direction::Black;
         Omote();
     }
+
+    inline static KomaType GetType(const std::string& koma)
+    {
+        if (koma == "歩") {
+            return KomaType::Fu;
+        }
+        if (koma == "と") {
+            return KomaType::Tokin;
+        }
+
+        if (koma == "香") {
+            return KomaType::Kyo;
+        }
+        if (koma == "杏") { // TODO: 表記ゆれ対応する 成香 など
+            return KomaType::NariKyo;
+        }
+
+        if (koma == "桂") {
+            return KomaType::Keima;
+        }
+        if (koma == "圭") {
+            return KomaType::NariKei;
+        }
+
+        if (koma == "銀") {
+            return KomaType::Gin;
+        }
+        if (koma == "全") {
+            return KomaType::NariGin;
+        }
+
+        if (koma == "金") {
+            return KomaType::Kin;
+        }
+
+        if (koma == "飛") {
+            return KomaType::Hisha;
+        }
+        if (koma == "竜") {
+            return KomaType::Ryu;
+        }
+
+        if (koma == "角") {
+            return KomaType::Kaku;
+        }
+        if (koma == "馬") {
+            return KomaType::Uma;
+        }
+
+        if (koma == "玉") {
+            return KomaType::Gyoku;
+        }
+
+        // fall-back
+        return KomaType::Fu;
+    }
 };
 
 using KomaRef = std::shared_ptr<Koma>;

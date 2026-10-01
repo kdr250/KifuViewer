@@ -15,6 +15,16 @@ std::span<MoveCommand> Kifu::GetMoveCommands()
     return result;
 }
 
+void Kifu::First()
+{
+    mCurrentIndex = 0;
+}
+
+void Kifu::Last()
+{
+    mCurrentIndex = mCommands.size() - 1;
+}
+
 void Kifu::Forward(unsigned int num)
 {
     mCurrentIndex = std::min(mCurrentIndex + num, static_cast<unsigned int>(mCommands.size() - 1));

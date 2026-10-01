@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <optional>
 #include "shogi/Kifu.h"
 
 /**
@@ -9,7 +10,6 @@
 namespace KifuReader {
     std::shared_ptr<Kifu> Read(const std::string& filePath);
 
-    bool IsValid(std::stringstream& lineStream);
-    MoveCommand Parse(std::stringstream& lineStream);
-    MoveCommand Parse(const std::string& move);
+    std::optional<MoveCommand> Parse(std::stringstream& lineStream);
+    std::optional<MoveCommand> Parse(const std::string& id, const std::string& move);
 };

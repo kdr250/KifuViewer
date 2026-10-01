@@ -3,6 +3,9 @@
 #include <string>
 #include <vector>
 
+/**
+ * 文字コード変換や加工
+ */
 namespace StringConverter {
     std::string Encode(const std::string& input, std::string inputCode, std::string outputCode);
 
