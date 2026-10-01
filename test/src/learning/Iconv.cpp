@@ -6,6 +6,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 std::string Encode(const u_char* inputString, size_t inputLength, std::string inputCode, std::string outputCode)
 {
@@ -84,6 +85,19 @@ std::string Encode(const u_char* inputString, size_t inputLength, std::string in
     }
 }
 
+size_t GetUTF8CharLength(unsigned char loadingByte)
+{
+    if ((loadingByte & 0x80) == 0x00)
+        return 1; // ASCII
+    if ((loadingByte & 0xE0) == 0xC0)
+        return 2;
+    if ((loadingByte & 0xF0) == 0xE0)
+        return 3; // 一般的な漢字、ひらがな(3バイト)
+    if ((loadingByte & 0xF8) == 0xF0)
+        return 4; // 特殊文字、絵文字など
+    return 1; // 不正なバイトの場合はフォールバック
+}
+
 TEST(Iconv, Encode)
 {
     std::string expected = "   1 ２六歩(27)   ( 0:00/00:00:00)";
@@ -99,6 +113,23 @@ TEST(Iconv, Encode)
     std::string target = ss.str();
 
     std::string actual = Encode(reinterpret_cast<const unsigned char*>(target.c_str()), target.size(), "SHIFT_JIS", "UTF-8");
+
+    // 1文字ずつに分割
+    for (size_t i = 0; i < actual.size();) {
+        // 現在の文字のバイト数を取得
+        size_t length = GetUTF8CharLength(static_cast<unsigned char>(actual[i]));
+
+        // 1文字分(漢字なら通常3バイト分)を切り出す
+        std::string singleChar = actual.substr(i, length);
+
+        // 出力
+        std::cout << singleChar << std::endl;
+
+        // 次の文字のインデックスへ進める
+        i += length;
+    }
+
+    std::cout << std::endl;
 
     EXPECT_EQ(expected, actual);
 }
