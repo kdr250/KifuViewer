@@ -18,6 +18,7 @@ if (EMSCRIPTEN)
 endif()
 
 find_package(SDL3 CONFIG REQUIRED)
+find_package(Iconv REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
@@ -47,6 +48,7 @@ if (EMSCRIPTEN)
     target_link_libraries(
         main PRIVATE
         SDL3::SDL3
+        Iconv::Iconv
     )
 
     set_target_properties(main PROPERTIES SUFFIX ".html")
@@ -58,6 +60,7 @@ else()
     target_link_libraries(
         main PRIVATE
         SDL3::SDL3
+        Iconv::Iconv
     )
 
     add_custom_command(
