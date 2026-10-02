@@ -93,7 +93,7 @@ std::optional<MoveCommand> KifuReader::Parse(const std::string& id, const std::s
             // 筋
             auto it = std::find(suji.begin(), suji.end(), *iter);
             if (it == suji.end()) {
-                std::cout << "Illegal destination" << std::endl;
+                std::cout << "Illegal destination suji" << std::endl;
                 return std::nullopt;
             }
             destination.first = it - suji.begin();
@@ -102,7 +102,7 @@ std::optional<MoveCommand> KifuReader::Parse(const std::string& id, const std::s
             // 段
             it = std::find(dan.begin(), dan.end(), *iter);
             if (it == dan.end()) {
-                std::cout << "Illegal destination" << std::endl;
+                std::cout << "Illegal destination dan" << std::endl;
                 return std::nullopt;
             }
             destination.second = it - dan.begin();

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <ostream>
+
 #include "Koma.h"
 
 /**
@@ -25,3 +27,20 @@ struct MoveCommand {
             && isNaru == other.isNaru;
     }
 };
+
+inline std::ostream& operator<<(std::ostream& os, const MoveCommand& command)
+{
+    std::pair<char, char> origin = command.origin;
+    std::pair<char, char> destination = command.destination;
+    std::string komaName = Koma::ToString(command.type);
+    std::string teban = ToString(command.direction);
+    bool isNaru = command.isNaru;
+
+    os << "MoveCommand { origin: { " << origin.first << ", " << origin.second << " }, "
+       << "dest: { " << destination.first << ", " << destination.second << " }, "
+       << "type: " << komaName << ", "
+       << "direction: " << teban << ", "
+       << "isNari: " << isNaru;
+
+    return os;
+}

@@ -251,3 +251,12 @@ public:
 };
 
 using KomaRef = std::shared_ptr<Koma>;
+
+inline std::string ToString(Direction direction)
+{
+    if (direction == Direction::Black) {
+        return "先手";
+    } else {
+        return "後手";
+    }
+}
