@@ -135,7 +135,7 @@ std::optional<MoveCommand> KifuReader::Parse(const std::string& id, const std::s
 
     // 成り
     bool isNaru = false;
-    if (*iter == "成") {
+    if (iter != targets.end() && *iter == "成") {
         isNaru = true;
         iter++;
     }

@@ -102,7 +102,7 @@ public:
                 return "玉";
 
             default:
-                break;
+                return ""; // Error
         }
     }
 
