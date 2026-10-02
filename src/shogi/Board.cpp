@@ -150,12 +150,13 @@ std::string Board::DebugString()
     std::stringstream ss;
     ss << std::endl;
 
-    std::map<std::string, int> komadai;
+    std::map<KomaType, int> komadai;
     for (auto& koma : mKomadaiWhite) {
-        komadai[koma->ToString()] += 1;
+        komadai[koma->Type()] += 1;
     }
     ss << "後: ";
-    for (auto& [komaName, count] : komadai) {
+    for (auto& [komaType, count] : komadai) {
+        std::string komaName = Koma::ToString(komaType);
         ss << komaName << "x" << count << " ";
     }
     ss << std::endl;
@@ -178,10 +179,11 @@ std::string Board::DebugString()
 
     komadai.clear();
     for (auto& koma : mKomadaiBlack) {
-        komadai[koma->ToString()] += 1;
+        komadai[koma->Type()] += 1;
     }
     ss << "先: ";
-    for (auto& [komaName, count] : komadai) {
+    for (auto& [komaType, count] : komadai) {
+        std::string komaName = Koma::ToString(komaType);
         ss << komaName << "x" << count << " ";
     }
     ss << std::endl;

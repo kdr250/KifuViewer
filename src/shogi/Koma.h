@@ -62,9 +62,9 @@ public:
     /**
      * 文字にする
      */
-    inline std::string ToString()
+    inline static std::string ToString(KomaType type)
     {
-        switch (mType) {
+        switch (type) {
             case KomaType::Fu:
                 return "歩";
             case KomaType::Tokin:
@@ -104,6 +104,14 @@ public:
             default:
                 break;
         }
+    }
+
+    /**
+     * 文字にする
+     */
+    inline std::string ToString()
+    {
+        return ToString(mType);
     }
 
     /**
@@ -197,21 +205,21 @@ public:
         if (koma == "香") {
             return KomaType::Kyo;
         }
-        if (koma == "杏") { // TODO: 表記ゆれ対応する 成香 など
+        if (koma == "杏" || koma == "成香") {
             return KomaType::NariKyo;
         }
 
         if (koma == "桂") {
             return KomaType::Keima;
         }
-        if (koma == "圭") {
+        if (koma == "圭" || koma == "成桂") {
             return KomaType::NariKei;
         }
 
         if (koma == "銀") {
             return KomaType::Gin;
         }
-        if (koma == "全") {
+        if (koma == "全" || koma == "成銀") {
             return KomaType::NariGin;
         }
 
@@ -222,7 +230,7 @@ public:
         if (koma == "飛") {
             return KomaType::Hisha;
         }
-        if (koma == "竜") {
+        if (koma == "竜" || koma == "龍") {
             return KomaType::Ryu;
         }
 
