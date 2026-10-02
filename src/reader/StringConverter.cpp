@@ -1,6 +1,6 @@
 #include "StringConverter.h"
 
-#ifdef _WIN32
+#ifndef u_char
 typedef unsigned char u_char;
 #endif
 #include <iconv.h>
