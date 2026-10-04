@@ -3,6 +3,8 @@
 #include <string>
 #include <memory>
 
+#include "Direction.h"
+
 /**
  * 駒の種類
  */
@@ -21,14 +23,6 @@ enum class KomaType {
     Kaku, // 角
     Uma, // 馬
     Gyoku, // 玉
-};
-
-/**
- * 向き
- */
-enum class Direction {
-    Black, // 先手側
-    White, // 後手側
 };
 
 /**
@@ -251,12 +245,3 @@ public:
 };
 
 using KomaRef = std::shared_ptr<Koma>;
-
-inline std::string ToString(Direction direction)
-{
-    if (direction == Direction::Black) {
-        return "先手";
-    } else {
-        return "後手";
-    }
-}
