@@ -12,4 +12,6 @@ namespace KifuReader {
 
     std::optional<MoveCommand> Parse(std::stringstream& lineStream);
     std::optional<MoveCommand> Parse(const std::string& id, const std::string& move);
+
+    const std::pair<char, char>& PreviousDestination();
 };

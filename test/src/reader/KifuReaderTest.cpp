@@ -5,40 +5,35 @@
 
 #include <fstream>
 
-TEST(KifuReader, Parse)
+using Parameters = std::pair<std::string, MoveCommand>;
+
+class Parameterized : public testing::TestWithParam<Parameters> { };
+
+std::vector<Parameters> parameters = {
+    { "1 ７六歩(77)", MoveCommand({ 6, 6 }, { 6, 5 }, KomaType::Fu, Direction::Black, false) },
+    { "2 ３四歩(33)", MoveCommand({ 2, 2 }, { 2, 3 }, KomaType::Fu, Direction::White, false) },
+    { "1 ２六歩(27)", MoveCommand({ 1, 6 }, { 1, 5 }, KomaType::Fu, Direction::Black, false) },
+    { "3 ２二角成(88)", MoveCommand({ 7, 7 }, { 1, 1 }, KomaType::Kaku, Direction::Black, true) },
+    { "3 ２二角不成(88)", MoveCommand({ 7, 7 }, { 1, 1 }, KomaType::Kaku, Direction::Black, false) },
+    { "4 同　銀(31)", MoveCommand({ 2, 0 }, KifuReader::PreviousDestination(), KomaType::Gin, Direction::White, false) },
+    { "23 ３三銀直(32)", MoveCommand({ 2, 1 }, { 2, 2 }, KomaType::Gin, Direction::Black, false) },
+    { "79 ３三銀直成(34)", MoveCommand({ 2, 3 }, { 2, 2 }, KomaType::Gin, Direction::Black, true) },
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    KifuReader,
+    Parameterized,
+    ::testing::ValuesIn(parameters));
+
+TEST_P(Parameterized, Parse)
 {
-    std::vector<MoveCommand> expecteds = {
-        {
-            .origin = std::make_pair(6, 6),
-            .destination = std::make_pair(6, 5),
-            .type = KomaType::Fu,
-            .direction = Direction::Black,
-            .isNaru = false,
-        },
-        {
-            .origin = std::make_pair(2, 2),
-            .destination = std::make_pair(2, 3),
-            .type = KomaType::Fu,
-            .direction = Direction::White,
-            .isNaru = false,
-        },
-    };
+    auto [value, expected] = GetParam();
 
-    std::cout << "expecteds[0] = " << expecteds[0] << std::endl;
+    std::stringstream ss(value);
+    auto actual = KifuReader::Parse(ss);
 
-    std::vector<std::string> values = {
-        "1 ７六歩(77)",
-        "2 ３四歩(33)",
-    };
-
-    for (int i = 0; i < values.size(); ++i) {
-        std::stringstream ss(values[i]);
-
-        std::optional<MoveCommand> actual = KifuReader::Parse(ss);
-
-        EXPECT_TRUE(actual.has_value());
-        EXPECT_EQ(expecteds[i], actual.value());
-    }
+    EXPECT_TRUE(actual.has_value());
+    EXPECT_EQ(expected, actual.value());
 }
 
 TEST(KifuReader, Read)
