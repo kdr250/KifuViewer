@@ -18,6 +18,12 @@ std::vector<Parameters> parameters = {
     { "4 同　銀(31)", MoveCommand({ 2, 0 }, KifuReader::PreviousDestination(), KomaType::Gin, Direction::White, false) },
     { "23 ３三銀直(32)", MoveCommand({ 2, 1 }, { 2, 2 }, KomaType::Gin, Direction::Black, false) },
     { "79 ３三銀直成(34)", MoveCommand({ 2, 3 }, { 2, 2 }, KomaType::Gin, Direction::Black, true) },
+    { "58 ５七成香(47)", MoveCommand({ 3, 6 }, { 4, 6 }, KomaType::NariKyo, Direction::White, false) },
+    { "58 ５七香成(51)", MoveCommand({ 4, 0 }, { 4, 6 }, KomaType::Kyo, Direction::White, true) },
+    { "58 ５七香不成(51)", MoveCommand({ 4, 0 }, { 4, 6 }, KomaType::Kyo, Direction::White, false) },
+    { "58 同　香成(51)", MoveCommand({ 4, 0 }, KifuReader::PreviousDestination(), KomaType::Kyo, Direction::White, true) },
+    { "58 同　香不成(51)", MoveCommand({ 4, 0 }, KifuReader::PreviousDestination(), KomaType::Kyo, Direction::White, false) },
+    { "57 同　成銀(56)", MoveCommand({ 4, 5 }, KifuReader::PreviousDestination(), KomaType::NariGin, Direction::Black, false) },
 };
 
 INSTANTIATE_TEST_SUITE_P(
