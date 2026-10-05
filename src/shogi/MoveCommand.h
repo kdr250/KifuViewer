@@ -30,14 +30,14 @@ struct MoveCommand {
 
 inline std::ostream& operator<<(std::ostream& os, const MoveCommand& command)
 {
-    std::pair<char, char> origin = command.origin;
-    std::pair<char, char> destination = command.destination;
+    auto& [originS, originD] = command.origin;
+    auto& [destinationS, destinationD] = command.destination;
     std::string komaName = Koma::ToString(command.type);
     std::string teban = ToString(command.direction);
     bool isNaru = command.isNaru;
 
-    os << "MoveCommand { origin: { " << origin.first << ", " << origin.second << " }, "
-       << "dest: { " << destination.first << ", " << destination.second << " }, "
+    os << "MoveCommand { origin: { " << (int)originS << ", " << (int)originD << " }, "
+       << "dest: { " << (int)destinationS << ", " << (int)destinationD << " }, "
        << "type: " << komaName << ", "
        << "direction: " << teban << ", "
        << "isNari: " << isNaru;

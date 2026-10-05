@@ -5,6 +5,42 @@
 
 #include <fstream>
 
+TEST(KifuReader, Parse)
+{
+    std::vector<MoveCommand> expecteds = {
+        {
+            .origin = std::make_pair(6, 6),
+            .destination = std::make_pair(6, 5),
+            .type = KomaType::Fu,
+            .direction = Direction::Black,
+            .isNaru = false,
+        },
+        {
+            .origin = std::make_pair(2, 2),
+            .destination = std::make_pair(2, 3),
+            .type = KomaType::Fu,
+            .direction = Direction::White,
+            .isNaru = false,
+        },
+    };
+
+    std::cout << "expecteds[0] = " << expecteds[0] << std::endl;
+
+    std::vector<std::string> values = {
+        "1 ７六歩(77)",
+        "2 ３四歩(33)",
+    };
+
+    for (int i = 0; i < values.size(); ++i) {
+        std::stringstream ss(values[i]);
+
+        std::optional<MoveCommand> actual = KifuReader::Parse(ss);
+
+        EXPECT_TRUE(actual.has_value());
+        EXPECT_EQ(expecteds[i], actual.value());
+    }
+}
+
 TEST(KifuReader, Read)
 {
     std::string expected = R"(
