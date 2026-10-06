@@ -14,7 +14,12 @@ bool MainLoop::Initialize()
     // initialize
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("failed to initialize SDL: %s", SDL_GetError());
-        return 1;
+        return false;
+    }
+
+    if (!TTF_Init()) {
+        SDL_Log("failed to initialize TTF: %s", SDL_GetError());
+        return false;
     }
 
     // create window
@@ -22,7 +27,7 @@ bool MainLoop::Initialize()
     if (!mWindow) {
         SDL_Log("failed to create window: %s", SDL_GetError());
         SDL_Quit();
-        return 1;
+        return false;
     }
     SDL_SetWindowResizable(mWindow, false);
 
@@ -32,10 +37,14 @@ bool MainLoop::Initialize()
         SDL_Log("failed to create renderer: %s", SDL_GetError());
         SDL_DestroyWindow(mWindow);
         SDL_Quit();
-        return 1;
+        return false;
     }
 
     mTicksCount = SDL_GetTicks();
+
+    mEngine = TTF_CreateRendererTextEngine(mRenderer);
+    mFont = TTF_OpenFont("resources/Roboto-Bold.ttf", 50.0f);
+    mText = TTF_CreateText(mEngine, mFont, "Hello", 6);
 
     return true;
 }
@@ -63,8 +72,14 @@ void MainLoop::RunLoop()
 
 void MainLoop::Shutdown()
 {
+    TTF_DestroyText(mText);
+    TTF_CloseFont(mFont);
+    TTF_DestroyRendererTextEngine(mEngine);
+
     SDL_DestroyRenderer(mRenderer);
     SDL_DestroyWindow(mWindow);
+
+    TTF_Quit();
     SDL_Quit();
 }
 
@@ -117,5 +132,6 @@ void MainLoop::Render()
 {
     SDL_RenderClear(mRenderer);
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 255, 255);
+    TTF_DrawRendererText(mText, 100.0f, 100.0f);
     SDL_RenderPresent(mRenderer);
 }

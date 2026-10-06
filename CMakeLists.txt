@@ -18,6 +18,7 @@ if (EMSCRIPTEN)
 endif()
 
 find_package(SDL3 CONFIG REQUIRED)
+find_package(SDL3_ttf CONFIG REQUIRED)
 find_package(Iconv REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -48,6 +49,7 @@ if (EMSCRIPTEN)
     target_link_libraries(
         main PRIVATE
         SDL3::SDL3
+        SDL3_ttf::SDL3_ttf
         Iconv::Iconv
     )
 
@@ -60,6 +62,7 @@ else()
     target_link_libraries(
         main PRIVATE
         SDL3::SDL3
+        SDL3_ttf::SDL3_ttf
         Iconv::Iconv
     )
 

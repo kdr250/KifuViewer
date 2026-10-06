@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 class MainLoop {
 public:
@@ -24,4 +25,8 @@ private:
 
     Uint32 mTicksCount = 0;
     bool mIsRunning = true;
+
+    TTF_Font* mFont;
+    TTF_Text* mText;
+    TTF_TextEngine* mEngine;
 };

@@ -26,6 +26,7 @@ if (EMSCRIPTEN)
         testmain
         GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main
         SDL3::SDL3
+        SDL3_ttf::SDL3_ttf
         Iconv::Iconv
     )
 
@@ -35,6 +36,7 @@ else()
         testmain
         GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main
         SDL3::SDL3
+        SDL3_ttf::SDL3_ttf
         Iconv::Iconv
     )
 
