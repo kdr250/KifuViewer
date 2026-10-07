@@ -1,16 +1,26 @@
 #include "BoardRenderer.h"
 
+#include <algorithm>
+
 void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Text* text)
 {
     // FIXME
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    TTF_DrawRendererText(text, 100.0f, 100.0f);
-    std::vector<SDL_FPoint> points {
-        { .x = 100.0f, .y = 100.0f },
-        { .x = 500.0f, .y = 100.0f },
-        { .x = 500.0f, .y = 500.0f },
-        { .x = 100.0f, .y = 500.0f },
-        { .x = 100.0f, .y = 100.0f },
+    SDL_SetRenderDrawColor(renderer, 240, 185, 100, 255);
+    SDL_FRect rect {
+        .x = 90.0f,
+        .y = 90.0f,
+        .w = 710.0f,
+        .h = 710.0f,
     };
-    SDL_RenderLines(renderer, points.data(), points.size());
+    SDL_RenderFillRect(renderer, &rect);
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    float padding = 100.0f + 10.0f;
+    float size = 600.0f / 9.0f;
+    for (int i = 0; i < 10; ++i) {
+        SDL_RenderLine(renderer, padding, padding + i * size, padding + 9 * size, padding + i * size);
+    }
+    for (int j = 0; j < 10; ++j) {
+        SDL_RenderLine(renderer, padding + j * size, padding, padding + j * size, padding + 9 * size);
+    }
 }
