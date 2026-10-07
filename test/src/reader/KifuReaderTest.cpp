@@ -16,6 +16,7 @@ std::vector<Parameters> parameters = {
     { "3 ２二角成(88)", MoveCommand({ 7, 7 }, { 1, 1 }, KomaType::Kaku, Direction::Black, true) },
     { "3 ２二角不成(88)", MoveCommand({ 7, 7 }, { 1, 1 }, KomaType::Kaku, Direction::Black, false) },
     { "4 同　銀(31)", MoveCommand({ 2, 0 }, KifuReader::PreviousDestination(), KomaType::Gin, Direction::White, false) },
+    { "5 ４五角打", MoveCommand(MoveCommand::KOMADAI_BLACK, { 3, 4 }, KomaType::Kaku, Direction::Black, false) },
     { "23 ３三銀直(32)", MoveCommand({ 2, 1 }, { 2, 2 }, KomaType::Gin, Direction::Black, false) },
     { "79 ３三銀直成(34)", MoveCommand({ 2, 3 }, { 2, 2 }, KomaType::Gin, Direction::Black, true) },
     { "58 ５七成香(47)", MoveCommand({ 3, 6 }, { 4, 6 }, KomaType::NariKyo, Direction::White, false) },
