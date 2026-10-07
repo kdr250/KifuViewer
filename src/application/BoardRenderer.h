@@ -10,5 +10,5 @@
  */
 class BoardRenderer {
 public:
-    void Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Text* text);
+    void Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font);
 };

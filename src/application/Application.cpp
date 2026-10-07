@@ -37,8 +37,8 @@ bool Application::Initialize()
     mTicksCount = SDL_GetTicks();
 
     mEngine = TTF_CreateRendererTextEngine(mRenderer);
-    mFont = TTF_OpenFont("resources/Roboto-Bold.ttf", 50.0f);
-    mText = TTF_CreateText(mEngine, mFont, "A", 1);
+    mFont = TTF_OpenFont("resources/font/NotoSans/NotoSansJP-Light.ttf", 50.0f);
+    mText = TTF_CreateText(mEngine, mFont, "あ", 1);
 
     return true;
 }
@@ -105,7 +105,7 @@ void Application::Render()
 {
     SDL_RenderClear(mRenderer);
 
-    mBoardRenderer.Render(mWindow, mRenderer, mText);
+    mBoardRenderer.Render(mWindow, mRenderer, mFont);
 
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
     SDL_RenderPresent(mRenderer);

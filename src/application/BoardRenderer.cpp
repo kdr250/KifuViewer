@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Text* text)
+void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font)
 {
     // FIXME
     SDL_SetRenderDrawColor(renderer, 240, 185, 100, 255);
@@ -36,7 +36,9 @@ void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Text*
             }
             float posX = padding + (8 - i) * size;
             float posY = padding + j * size;
-            TTF_DrawRendererText(text, posX, posY);
+
+            // FIXME: See https://glusoft.com/sdl3-tutorials/display-unicode-texts-sdl3-ttf/
+            SDL_Surface* surace = TTF_RenderText_Blended(font, "あ", 2, SDL_Color { .r = 0, .g = 0, .b = 0, .a = 255 });
         }
     }
 }
