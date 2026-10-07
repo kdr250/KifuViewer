@@ -38,7 +38,7 @@ bool Application::Initialize()
 
     mEngine = TTF_CreateRendererTextEngine(mRenderer);
     mFont = TTF_OpenFont("resources/Roboto-Bold.ttf", 50.0f);
-    mText = TTF_CreateText(mEngine, mFont, "Hello", 5);
+    mText = TTF_CreateText(mEngine, mFont, "A", 1);
 
     return true;
 }

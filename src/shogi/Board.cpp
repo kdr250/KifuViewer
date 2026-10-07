@@ -145,6 +145,21 @@ bool Board::Move(const std::span<MoveCommand>& commands)
     return true;
 }
 
+const std::array<std::array<KomaRef, 9>, 9>& Board::GetMasume()
+{
+    return mMasume;
+}
+
+const std::vector<KomaRef>& Board::GetKomadaiBlack()
+{
+    return mKomadaiBlack;
+}
+
+const std::vector<KomaRef>& Board::GetKomadaiWhite()
+{
+    return mKomadaiWhite;
+}
+
 std::string Board::DebugString()
 {
     std::stringstream ss;

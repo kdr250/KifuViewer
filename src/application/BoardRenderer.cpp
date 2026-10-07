@@ -14,13 +14,29 @@ void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Text*
     };
     SDL_RenderFillRect(renderer, &rect);
 
+    // 升目を描画
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    float padding = 100.0f + 10.0f;
+    float padding = 100.0f + 30.0f;
     float size = 600.0f / 9.0f;
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i <= 9; ++i) {
         SDL_RenderLine(renderer, padding, padding + i * size, padding + 9 * size, padding + i * size);
     }
-    for (int j = 0; j < 10; ++j) {
+    for (int j = 0; j <= 9; ++j) {
         SDL_RenderLine(renderer, padding + j * size, padding, padding + j * size, padding + 9 * size);
+    }
+
+    // 盤上の駒を描画
+    Shogi shogi;
+    const auto& masume = shogi.GetMasume();
+    for (int i = 8; i >= 0; --i) {
+        for (int j = 0; j <= 8; ++j) {
+            KomaRef koma = masume[j][i];
+            if (koma == nullptr) {
+                continue;
+            }
+            float posX = padding + (8 - i) * size;
+            float posY = padding + j * size;
+            TTF_DrawRendererText(text, posX, posY);
+        }
     }
 }

@@ -54,6 +54,21 @@ void Shogi::Backward(unsigned int num)
     mBoard.Move(commands);
 }
 
+const std::array<std::array<KomaRef, 9>, 9>& Shogi::GetMasume()
+{
+    return mBoard.GetMasume();
+}
+
+const std::vector<KomaRef>& Shogi::GetKomadaiBlack()
+{
+    return mBoard.GetKomadaiBlack();
+}
+
+const std::vector<KomaRef>& Shogi::GetKomadaiWhite()
+{
+    return mBoard.GetKomadaiWhite();
+}
+
 std::string Shogi::DebugString()
 {
     return mBoard.DebugString();

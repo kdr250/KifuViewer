@@ -24,6 +24,10 @@ public:
     bool Move(const MoveCommand& command);
     bool Move(const std::span<MoveCommand>& commands);
 
+    const std::array<std::array<KomaRef, 9>, 9>& GetMasume();
+    const std::vector<KomaRef>& GetKomadaiBlack();
+    const std::vector<KomaRef>& GetKomadaiWhite();
+
     std::string DebugString();
     void DebugPrint();
 };
