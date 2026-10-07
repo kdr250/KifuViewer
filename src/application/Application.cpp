@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include <algorithm>
+#include <vector>
 
 bool Application::Initialize()
 {
@@ -103,7 +104,9 @@ void Application::Update()
 void Application::Render()
 {
     SDL_RenderClear(mRenderer);
-    SDL_SetRenderDrawColor(mRenderer, 0, 0, 255, 255);
-    TTF_DrawRendererText(mText, 100.0f, 100.0f);
+
+    mBoardRenderer.Render(mWindow, mRenderer, mText);
+
+    SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
     SDL_RenderPresent(mRenderer);
 }

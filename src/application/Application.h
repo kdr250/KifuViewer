@@ -3,6 +3,8 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
+#include "BoardRenderer.h"
+
 class Application {
 public:
     bool Initialize();
@@ -25,4 +27,6 @@ private:
     TTF_Font* mFont;
     TTF_Text* mText;
     TTF_TextEngine* mEngine;
+
+    BoardRenderer mBoardRenderer;
 };
