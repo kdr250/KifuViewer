@@ -40,6 +40,8 @@ bool Application::Initialize()
     mFont = TTF_OpenFont("resources/font/NotoSans/NotoSansJP-Light.ttf", 50.0f);
     mText = TTF_CreateText(mEngine, mFont, "あ", 1);
 
+    mBoardRenderer.Initialize(mRenderer, mFont);
+
     return true;
 }
 

@@ -2,6 +2,28 @@
 
 #include <algorithm>
 
+void BoardRenderer::Initialize(SDL_Renderer* renderer, TTF_Font* font)
+{
+    std::vector<std::wstring> komaNames = Koma::KomaNames();
+
+    mKomaTextures.clear();
+    mKomaTextures.reserve(komaNames.size());
+
+    // Render each character as a surface
+    for (size_t i = 0; i < komaNames.size(); ++i) {
+        SDL_Surface* textSurface = TTF_RenderGlyph_Blended(font, komaNames[i][0], SDL_Color { 0, 0, 0, 255 });
+        if (!textSurface) {
+            std::cerr << "failed to create text surface: " << SDL_GetError() << std::endl;
+            continue;
+        }
+
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+        mKomaTextures.emplace(komaNames[i], texture);
+
+        SDL_DestroySurface(textSurface);
+    }
+}
+
 void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font)
 {
     // FIXME
@@ -34,11 +56,25 @@ void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font*
             if (koma == nullptr) {
                 continue;
             }
-            float posX = padding + (8 - i) * size;
-            float posY = padding + j * size;
+            SDL_FRect area {
+                .x = padding + (8 - i) * size,
+                .y = padding + j * size,
+                .w = size,
+                .h = size,
+            };
 
-            // FIXME: See https://glusoft.com/sdl3-tutorials/display-unicode-texts-sdl3-ttf/
-            SDL_Surface* surace = TTF_RenderText_Blended(font, "あ", 2, SDL_Color { .r = 0, .g = 0, .b = 0, .a = 255 });
+            std::wstring komaName = koma->ToWString();
+            Direction direction = koma->Direction();
+
+            if (direction == Direction::Black) {
+                SDL_RenderTexture(renderer, mKomaTextures[komaName], NULL, &area);
+            } else {
+                SDL_FPoint center {
+                    .x = area.x + area.w / 2.0f,
+                    .y = area.y + area.h / 2.0f,
+                };
+                SDL_RenderTextureRotated(renderer, mKomaTextures[komaName], NULL, &area, 180.0, NULL, SDL_FlipMode::SDL_FLIP_NONE);
+            }
         }
     }
 }
