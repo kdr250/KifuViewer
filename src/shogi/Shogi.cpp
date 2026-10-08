@@ -69,6 +69,16 @@ const std::vector<KomaRef>& Shogi::GetKomadaiWhite() const
     return mBoard.GetKomadaiWhite();
 }
 
+std::wstring Shogi::ToWStringKomadaiBlack() const
+{
+    return mBoard.ToWStringKomadaiBlack();
+}
+
+std::wstring Shogi::ToWStringKomadaiWhite() const
+{
+    return mBoard.ToWStringKomadaiWhite();
+}
+
 std::string Shogi::DebugString()
 {
     return mBoard.DebugString();

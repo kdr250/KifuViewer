@@ -28,6 +28,9 @@ public:
     const std::vector<KomaRef>& GetKomadaiBlack() const;
     const std::vector<KomaRef>& GetKomadaiWhite() const;
 
+    std::wstring ToWStringKomadaiBlack() const;
+    std::wstring ToWStringKomadaiWhite() const;
+
     std::string DebugString();
     void DebugPrint();
 };

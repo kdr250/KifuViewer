@@ -16,5 +16,5 @@ public:
     void Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, const Shogi& shogi);
 
 private:
-    std::unordered_map<std::wstring, SDL_Texture*> mKomaTextures;
+    std::unordered_map<wchar_t, SDL_Texture*> mTextures;
 };

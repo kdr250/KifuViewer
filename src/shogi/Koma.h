@@ -103,47 +103,47 @@ public:
     /**
      * ワイド文字にする
      */
-    inline static std::wstring ToWString(KomaType type)
+    inline static wchar_t ToWChar(KomaType type)
     {
         switch (type) {
             case KomaType::Fu:
-                return L"歩";
+                return L'歩';
             case KomaType::Tokin:
-                return L"と";
+                return L'と';
 
             case KomaType::Kyo:
-                return L"香";
+                return L'香';
             case KomaType::NariKyo:
-                return L"杏";
+                return L'杏';
 
             case KomaType::Keima:
-                return L"桂";
+                return L'桂';
             case KomaType::NariKei:
-                return L"圭";
+                return L'圭';
 
             case KomaType::Gin:
-                return L"銀";
+                return L'銀';
             case KomaType::NariGin:
-                return L"全";
+                return L'全';
 
             case KomaType::Kin:
-                return L"金";
+                return L'金';
 
             case KomaType::Hisha:
-                return L"飛";
+                return L'飛';
             case KomaType::Ryu:
-                return L"竜";
+                return L'竜';
 
             case KomaType::Kaku:
-                return L"角";
+                return L'角';
             case KomaType::Uma:
-                return L"馬";
+                return L'馬';
 
             case KomaType::Gyoku:
-                return L"玉";
+                return L'玉';
 
             default:
-                return L""; // Error
+                return L' '; // Error
         }
     }
 
@@ -158,9 +158,9 @@ public:
     /**
      * ワイド文字にする
      */
-    inline std::wstring ToWString()
+    inline wchar_t ToWChar()
     {
-        return ToWString(mType);
+        return ToWChar(mType);
     }
 
     /**
@@ -298,9 +298,9 @@ public:
         return KomaType::Fu;
     }
 
-    inline static std::vector<std::wstring> KomaNames()
+    inline static std::vector<wchar_t> KomaNames()
     {
-        return { L"歩", L"と", L"香", L"杏", L"桂", L"圭", L"銀", L"全", L"金", L"角", L"馬", L"飛", L"竜", L"玉" };
+        return { L'歩', L'と', L'香', L'杏', L'桂', L'圭', L'銀', L'全', L'金', L'角', L'馬', L'飛', L'竜', L'玉' };
     }
 };
 

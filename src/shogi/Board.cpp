@@ -160,6 +160,42 @@ const std::vector<KomaRef>& Board::GetKomadaiWhite() const
     return mKomadaiWhite;
 }
 
+std::wstring Board::ToWStringKomadaiBlack() const
+{
+    std::wstring result;
+
+    std::map<KomaType, int> komadai;
+    for (auto& koma : mKomadaiBlack) {
+        komadai[koma->Type()] += 1;
+    }
+    for (auto& [komaType, count] : komadai) {
+        wchar_t komaName = Koma::ToWChar(komaType);
+        result += komaName;
+        result += L"x";
+        result += std::to_wstring(count);
+        result += L" ";
+    }
+    return result;
+}
+
+std::wstring Board::ToWStringKomadaiWhite() const
+{
+    std::wstring result;
+
+    std::map<KomaType, int> komadai;
+    for (auto& koma : mKomadaiWhite) {
+        komadai[koma->Type()] += 1;
+    }
+    for (auto& [komaType, count] : komadai) {
+        wchar_t komaName = Koma::ToWChar(komaType);
+        result += komaName;
+        result += L"x";
+        result += std::to_wstring(count);
+        result += L" ";
+    }
+    return result;
+}
+
 std::string Board::DebugString()
 {
     std::stringstream ss;
