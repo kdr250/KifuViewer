@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <vector>
 
+#include "reader/KifuReader.h"
+
 bool Application::Initialize()
 {
     // initialize
@@ -38,9 +40,13 @@ bool Application::Initialize()
 
     mEngine = TTF_CreateRendererTextEngine(mRenderer);
     mFont = TTF_OpenFont("resources/font/NotoSans/NotoSansJP-Light.ttf", 50.0f);
-    mText = TTF_CreateText(mEngine, mFont, "あ", 1);
 
     mBoardRenderer.Initialize(mRenderer, mFont);
+
+    // FIXME
+    std::shared_ptr<Kifu> kifu = KifuReader::Read("resources/kifu/test.kif");
+    mShogi.SetKifu(kifu);
+    mShogi.Last();
 
     return true;
 }
@@ -54,7 +60,6 @@ void Application::Loop()
 
 void Application::Shutdown()
 {
-    TTF_DestroyText(mText);
     TTF_CloseFont(mFont);
     TTF_DestroyRendererTextEngine(mEngine);
 
@@ -107,7 +112,7 @@ void Application::Render()
 {
     SDL_RenderClear(mRenderer);
 
-    mBoardRenderer.Render(mWindow, mRenderer, mFont);
+    mBoardRenderer.Render(mWindow, mRenderer, mFont, mShogi);
 
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
     SDL_RenderPresent(mRenderer);

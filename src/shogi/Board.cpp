@@ -145,17 +145,17 @@ bool Board::Move(const std::span<MoveCommand>& commands)
     return true;
 }
 
-const std::array<std::array<KomaRef, 9>, 9>& Board::GetMasume()
+const std::array<std::array<KomaRef, 9>, 9>& Board::GetMasume() const
 {
     return mMasume;
 }
 
-const std::vector<KomaRef>& Board::GetKomadaiBlack()
+const std::vector<KomaRef>& Board::GetKomadaiBlack() const
 {
     return mKomadaiBlack;
 }
 
-const std::vector<KomaRef>& Board::GetKomadaiWhite()
+const std::vector<KomaRef>& Board::GetKomadaiWhite() const
 {
     return mKomadaiWhite;
 }

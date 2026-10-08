@@ -20,9 +20,9 @@ public:
     void Forward(unsigned int num = 1);
     void Backward(unsigned int num = 1);
 
-    const std::array<std::array<KomaRef, 9>, 9>& GetMasume();
-    const std::vector<KomaRef>& GetKomadaiBlack();
-    const std::vector<KomaRef>& GetKomadaiWhite();
+    const std::array<std::array<KomaRef, 9>, 9>& GetMasume() const;
+    const std::vector<KomaRef>& GetKomadaiBlack() const;
+    const std::vector<KomaRef>& GetKomadaiWhite() const;
 
     std::string DebugString();
     void DebugPrint();

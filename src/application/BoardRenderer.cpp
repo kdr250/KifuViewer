@@ -24,7 +24,7 @@ void BoardRenderer::Initialize(SDL_Renderer* renderer, TTF_Font* font)
     }
 }
 
-void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font)
+void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, const Shogi& shogi)
 {
     // FIXME
     SDL_SetRenderDrawColor(renderer, 240, 185, 100, 255);
@@ -48,7 +48,6 @@ void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font*
     }
 
     // 盤上の駒を描画
-    Shogi shogi;
     const auto& masume = shogi.GetMasume();
     for (int i = 8; i >= 0; --i) {
         for (int j = 0; j <= 8; ++j) {

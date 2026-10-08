@@ -25,8 +25,9 @@ private:
     bool mIsRunning = true;
 
     TTF_Font* mFont;
-    TTF_Text* mText;
     TTF_TextEngine* mEngine;
 
     BoardRenderer mBoardRenderer;
+
+    Shogi mShogi;
 };
