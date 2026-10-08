@@ -8,17 +8,15 @@ Shogi::Shogi()
 void Shogi::SetKifu(const std::shared_ptr<Kifu>& kifu)
 {
     mKifu = kifu;
+    mBoard.Reset();
 }
 
 void Shogi::First()
 {
-    if (mKifu == nullptr) {
-        return;
+    if (mKifu) {
+        mKifu->First();
     }
-    mKifu->First();
-    std::span<MoveCommand> commands = mKifu->GetMoveCommands();
     mBoard.Reset();
-    mBoard.Move(commands);
 }
 
 void Shogi::Last()

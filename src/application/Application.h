@@ -18,6 +18,8 @@ private:
     void Update();
     void Render();
 
+    void HandleKeyDown(const SDL_Event& event);
+
     SDL_Window* mWindow = nullptr;
     SDL_Renderer* mRenderer = nullptr;
 

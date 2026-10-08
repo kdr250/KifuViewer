@@ -22,5 +22,5 @@ public:
 
 private:
     std::vector<MoveCommand> mCommands;
-    unsigned int mCurrentIndex;
+    int mCurrentIndex;
 };

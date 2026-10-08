@@ -14,6 +14,7 @@ TEST(Kifu, GetMoveCommands)
     };
 
     Kifu kifu(expected);
+    kifu.Forward();
     std::span<MoveCommand> actual = kifu.GetMoveCommands();
 
     EXPECT_THAT(actual, testing::ElementsAreArray(expected));
@@ -66,7 +67,7 @@ TEST(Kifu, Forward)
     };
 
     Kifu kifu(commands);
-    kifu.Forward(4);
+    kifu.Forward(5);
     std::span<MoveCommand> actual = kifu.GetMoveCommands();
 
     EXPECT_THAT(actual, testing::ElementsAreArray(expected));
@@ -119,7 +120,7 @@ TEST(Kifu, Backward)
     };
 
     Kifu kifu(commands);
-    kifu.Forward(4);
+    kifu.Forward(5);
     kifu.Backward(2);
     std::span<MoveCommand> actual = kifu.GetMoveCommands();
 

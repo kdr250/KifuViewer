@@ -46,7 +46,6 @@ bool Application::Initialize()
     // FIXME
     std::shared_ptr<Kifu> kifu = KifuReader::Read("resources/kifu/test.kif");
     mShogi.SetKifu(kifu);
-    mShogi.Last();
 
     return true;
 }
@@ -84,6 +83,10 @@ void Application::ProcessInput()
                 mIsRunning = false;
                 break;
 
+            case SDL_EVENT_KEY_DOWN:
+                HandleKeyDown(event);
+                break;
+
             default:
                 break;
         }
@@ -116,4 +119,28 @@ void Application::Render()
 
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
     SDL_RenderPresent(mRenderer);
+}
+
+void Application::HandleKeyDown(const SDL_Event& event)
+{
+    switch (event.key.scancode) {
+        case SDL_SCANCODE_LEFT:
+            mShogi.First();
+            break;
+
+        case SDL_SCANCODE_RIGHT:
+            mShogi.Last();
+            break;
+
+        case SDL_SCANCODE_UP:
+            mShogi.Backward();
+            break;
+
+        case SDL_SCANCODE_DOWN:
+            mShogi.Forward();
+            break;
+
+        default:
+            break;
+    }
 }

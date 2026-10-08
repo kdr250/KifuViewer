@@ -105,7 +105,7 @@ TEST(Shogi, Forward)
     Shogi shogi;
     shogi.SetKifu(kifu);
 
-    shogi.Forward(commands.size() - 1);
+    shogi.Forward(commands.size());
 
     std::string actual = shogi.DebugString();
 
@@ -183,7 +183,7 @@ TEST(Shogi, Backward)
     Shogi shogi;
     shogi.SetKifu(kifu);
 
-    shogi.Forward(commands.size() - 1);
+    shogi.Forward(commands.size());
     shogi.Backward();
 
     std::string actual = shogi.DebugString();
