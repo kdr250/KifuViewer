@@ -37,16 +37,16 @@ void BoardRenderer::Initialize(SDL_Renderer* renderer, TTF_Font* font)
         SDL_DestroySurface(textSurface);
     }
 
-    std::vector<wchar_t> anothers { L'x', L' ' };
-    for (wchar_t ch : anothers) {
-        SDL_Surface* textSurface = TTF_RenderGlyph_Blended(font, ch, SDL_Color { 0, 0, 0, 255 });
+    {
+        wchar_t x = L'x';
+        SDL_Surface* textSurface = TTF_RenderGlyph_Blended(font, x, SDL_Color { 0, 0, 0, 255 });
         if (!textSurface) {
             std::cerr << "failed to create text surface: " << SDL_GetError() << std::endl;
             return;
         }
 
         SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, textSurface);
-        mTextures.emplace(ch, texture);
+        mTextures.emplace(x, texture);
 
         SDL_DestroySurface(textSurface);
     }
@@ -107,6 +107,11 @@ void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font*
         std::wstring komadaiWhite = shogi.ToWStringKomadaiWhite();
         float offset = padding;
         for (wchar_t ch : komadaiWhite) {
+            if (ch == ' ') {
+                offset += 3.0f;
+                continue;
+            }
+
             SDL_Texture* texture = mTextures[ch];
             SDL_FRect area {
                 .x = offset,
@@ -115,7 +120,7 @@ void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font*
                 .h = (float)texture->h,
             };
 
-            if (ch == 'x' || ch == ' ' || (ch >= L'0' && ch <= L'9')) {
+            if (ch == 'x' || (ch >= L'0' && ch <= L'9')) {
                 SDL_RenderTexture(renderer, texture, NULL, &area);
             } else {
                 SDL_RenderTextureRotated(renderer, texture, NULL, &area, 180.0, NULL, SDL_FlipMode::SDL_FLIP_NONE);
@@ -130,6 +135,11 @@ void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font*
         std::wstring komadaiBlack = shogi.ToWStringKomadaiBlack();
         float offset = padding;
         for (wchar_t ch : komadaiBlack) {
+            if (ch == ' ') {
+                offset += 3.0f;
+                continue;
+            }
+
             SDL_Texture* texture = mTextures[ch];
             SDL_FRect area {
                 .x = offset,
@@ -139,7 +149,6 @@ void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font*
             };
 
             SDL_RenderTexture(renderer, texture, NULL, &area);
-
             offset += texture->w + 3.0f;
         }
     }
