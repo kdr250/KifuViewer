@@ -47,6 +47,8 @@ bool Application::Initialize()
     std::shared_ptr<Kifu> kifu = KifuReader::Read("resources/kifu/test.kif");
     mShogi.SetKifu(kifu);
 
+    mUserInterface.Initilaize(mWindow, mRenderer);
+
     return true;
 }
 
@@ -61,6 +63,8 @@ void Application::Shutdown()
 {
     TTF_CloseFont(mFont);
     TTF_DestroyRendererTextEngine(mEngine);
+
+    mUserInterface.Cleanup();
 
     SDL_DestroyRenderer(mRenderer);
     SDL_DestroyWindow(mWindow);
@@ -78,6 +82,7 @@ void Application::ProcessInput()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+        mUserInterface.ProcessEvent(event);
         switch (event.type) {
             case SDL_EVENT_QUIT:
                 mIsRunning = false;
@@ -109,6 +114,8 @@ void Application::Update()
     float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
     deltaTime = std::min(deltaTime, 0.05f);
     mTicksCount = SDL_GetTicks();
+
+    mUserInterface.CreateFrame();
 }
 
 void Application::Render()
@@ -116,6 +123,7 @@ void Application::Render()
     SDL_RenderClear(mRenderer);
 
     mBoardRenderer.Render(mWindow, mRenderer, mFont, mShogi);
+    mUserInterface.Render(mRenderer);
 
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
     SDL_RenderPresent(mRenderer);

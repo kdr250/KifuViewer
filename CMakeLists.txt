@@ -19,6 +19,7 @@ endif()
 
 find_package(SDL3 CONFIG REQUIRED)
 find_package(SDL3_ttf CONFIG REQUIRED)
+find_package(imgui CONFIG REQUIRED)
 find_package(Iconv REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -50,6 +51,7 @@ if (EMSCRIPTEN)
         main PRIVATE
         SDL3::SDL3
         SDL3_ttf::SDL3_ttf
+        imgui::imgui
         Iconv::Iconv
     )
 
@@ -63,6 +65,7 @@ else()
         main PRIVATE
         SDL3::SDL3
         SDL3_ttf::SDL3_ttf
+        imgui::imgui
         Iconv::Iconv
     )
 

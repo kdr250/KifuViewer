@@ -4,6 +4,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 #include "BoardRenderer.h"
+#include "UserInterface.h"
 
 class Application {
 public:
@@ -32,4 +33,6 @@ private:
     BoardRenderer mBoardRenderer;
 
     Shogi mShogi;
+
+    UserInterface mUserInterface;
 };
