@@ -3,6 +3,12 @@
     "dependencies": [
         "sdl3",
         "sdl3-ttf",
+        {
+            "name": "sdl3-image",
+            "features": [
+                "png"
+            ]
+        },
         "libiconv",
         {
             "name": "imgui",

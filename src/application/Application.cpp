@@ -115,7 +115,7 @@ void Application::Update()
     deltaTime = std::min(deltaTime, 0.05f);
     mTicksCount = SDL_GetTicks();
 
-    mUserInterface.CreateFrame();
+    mUserInterface.CreateFrame(mRenderer);
 }
 
 void Application::Render()
