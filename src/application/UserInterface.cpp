@@ -41,3 +41,8 @@ void UserInterface::Cleanup()
     ImGui_ImplSDL3_Shutdown();
     ImGui::DestroyContext();
 }
+
+void UserInterface::DisplayTexture()
+{
+    // TODO: See https://github.com/ocornut/imgui/wiki/Image-Loading-and-Displaying-Examples
+}

@@ -12,4 +12,7 @@ public:
     void Render(SDL_Renderer* renderer);
 
     void Cleanup();
+
+private:
+    void DisplayTexture();
 };
