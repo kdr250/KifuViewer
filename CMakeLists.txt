@@ -19,7 +19,6 @@ endif()
 
 find_package(SDL3 CONFIG REQUIRED)
 find_package(SDL3_ttf CONFIG REQUIRED)
-find_package(SDL3_image CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
 find_package(Iconv REQUIRED)
 
@@ -52,7 +51,6 @@ if (EMSCRIPTEN)
         main PRIVATE
         SDL3::SDL3
         SDL3_ttf::SDL3_ttf
-        $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image-shared>,SDL3_image::SDL3_image-shared,SDL3_image::SDL3_image-static>
         imgui::imgui
         Iconv::Iconv
     )
@@ -67,7 +65,6 @@ else()
         main PRIVATE
         SDL3::SDL3
         SDL3_ttf::SDL3_ttf
-        $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image-shared>,SDL3_image::SDL3_image-shared,SDL3_image::SDL3_image-static>
         imgui::imgui
         Iconv::Iconv
     )

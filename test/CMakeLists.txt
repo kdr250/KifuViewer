@@ -27,7 +27,6 @@ if (EMSCRIPTEN)
         GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main
         SDL3::SDL3
         SDL3_ttf::SDL3_ttf
-        $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image-shared>,SDL3_image::SDL3_image-shared,SDL3_image::SDL3_image-static>
         imgui::imgui
         Iconv::Iconv
     )
@@ -39,7 +38,6 @@ else()
         GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main
         SDL3::SDL3
         SDL3_ttf::SDL3_ttf
-        $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image-shared>,SDL3_image::SDL3_image-shared,SDL3_image::SDL3_image-static>
         imgui::imgui
         Iconv::Iconv
     )
