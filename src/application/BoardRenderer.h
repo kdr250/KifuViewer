@@ -13,7 +13,7 @@ class BoardRenderer {
 public:
     void Initialize(SDL_Renderer* renderer, TTF_Font* font);
 
-    void Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, const Shogi& shogi);
+    SDL_Texture* Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, const Shogi& shogi);
 
 private:
     std::unordered_map<wchar_t, SDL_Texture*> mTextures;

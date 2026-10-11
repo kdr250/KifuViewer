@@ -52,9 +52,12 @@ void BoardRenderer::Initialize(SDL_Renderer* renderer, TTF_Font* font)
     }
 }
 
-void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, const Shogi& shogi)
+SDL_Texture* BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, const Shogi& shogi)
 {
     // FIXME
+    SDL_Texture* result = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1024, 768);
+    SDL_SetRenderTarget(renderer, result);
+
     SDL_SetRenderDrawColor(renderer, 240, 185, 100, 255);
     SDL_FRect rect {
         .x = 0.0f,
@@ -152,4 +155,8 @@ void BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font*
             offset += texture->w + 3.0f;
         }
     }
+
+    SDL_SetRenderTarget(renderer, NULL);
+
+    return result;
 }

@@ -122,7 +122,9 @@ void Application::Render()
 {
     SDL_RenderClear(mRenderer);
 
-    mBoardRenderer.Render(mWindow, mRenderer, mFont, mShogi);
+    SDL_Texture* texture = mBoardRenderer.Render(mWindow, mRenderer, mFont, mShogi);
+    SDL_RenderTexture(mRenderer, texture, NULL, NULL);
+
     mUserInterface.Render(mRenderer);
 
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
