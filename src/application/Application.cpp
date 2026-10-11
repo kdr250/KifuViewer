@@ -114,8 +114,6 @@ void Application::Update()
     float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
     deltaTime = std::min(deltaTime, 0.05f);
     mTicksCount = SDL_GetTicks();
-
-    mUserInterface.CreateFrame(mRenderer);
 }
 
 void Application::Render()
@@ -125,6 +123,7 @@ void Application::Render()
     SDL_Texture* texture = mBoardRenderer.Render(mWindow, mRenderer, mFont, mShogi);
     SDL_RenderTexture(mRenderer, texture, NULL, NULL);
 
+    mUserInterface.CreateFrame(texture);
     mUserInterface.Render(mRenderer);
 
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);

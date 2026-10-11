@@ -8,11 +8,11 @@ public:
 
     void ProcessEvent(const SDL_Event& event);
 
-    void CreateFrame(SDL_Renderer* renderer);
+    void CreateFrame(SDL_Texture* texture);
     void Render(SDL_Renderer* renderer);
 
     void Cleanup();
 
 private:
-    void DisplayTexture(SDL_Renderer* renderer);
+    void DisplayTexture(SDL_Texture* texture);
 };

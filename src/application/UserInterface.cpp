@@ -24,7 +24,7 @@ void UserInterface::ProcessEvent(const SDL_Event& event)
     ImGui_ImplSDL3_ProcessEvent(&event);
 }
 
-void UserInterface::CreateFrame(SDL_Renderer* renderer)
+void UserInterface::CreateFrame(SDL_Texture* texture)
 {
     ImGui_ImplSDLRenderer3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
@@ -32,7 +32,7 @@ void UserInterface::CreateFrame(SDL_Renderer* renderer)
 
     ImGui::ShowDemoWindow();
 
-    DisplayTexture(renderer);
+    DisplayTexture(texture);
 }
 
 void UserInterface::Render(SDL_Renderer* renderer)
@@ -48,41 +48,11 @@ void UserInterface::Cleanup()
     ImGui::DestroyContext();
 }
 
-// FIXME
-SDL_Texture* LoadTexture(const std::string& path, SDL_Renderer* renderer)
+void UserInterface::DisplayTexture(SDL_Texture* texture)
 {
-    SDL_Surface* surface = IMG_Load(path.c_str());
-
-    if (!surface) {
-        SDL_Log("Failed to load texture file: %s", path.c_str());
-        return nullptr;
-    }
-
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    if (!texture) {
-        SDL_Log("Failed to create SDL texture: %s", SDL_GetError());
-    }
-
-    SDL_DestroySurface(surface);
-
-    return texture;
-}
-
-SDL_Texture* texture = nullptr;
-
-void UserInterface::DisplayTexture(SDL_Renderer* renderer)
-{
-    // FIXME
-    if (texture == nullptr) {
-        texture = LoadTexture("resources/texture/red.png", renderer);
-        if (!texture) {
-            return;
-        }
-    }
-
     ImGui::Begin("SDL_Renderer Texture Test");
     ImGui::Text("pointer = %p", texture);
     ImGui::Text("size = %d x %d", texture->w, texture->h);
-    ImGui::Image((ImTextureID)(intptr_t)texture, ImVec2((float)texture->w * 10.0f, (float)texture->h * 10.0f));
+    ImGui::Image((ImTextureID)(intptr_t)texture, ImVec2((float)texture->w, (float)texture->h));
     ImGui::End();
 }
