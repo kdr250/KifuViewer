@@ -121,7 +121,6 @@ void Application::Render()
     SDL_RenderClear(mRenderer);
 
     SDL_Texture* texture = mBoardRenderer.Render(mWindow, mRenderer, mFont, mShogi);
-    SDL_RenderTexture(mRenderer, texture, NULL, NULL);
 
     mUserInterface.CreateFrame(texture);
     mUserInterface.Render(mRenderer);
