@@ -46,9 +46,22 @@ void UserInterface::Cleanup()
 
 void UserInterface::DisplayTexture(SDL_Texture* texture)
 {
-    ImGui::Begin("SDL_Renderer Texture Test");
-    ImGui::Text("pointer = %p", texture);
-    ImGui::Text("size = %d x %d", texture->w, texture->h);
+    const ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(viewport->WorkPos);
+    ImGui::SetNextWindowSize(viewport->WorkSize);
+
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+
+    ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
+        | ImGuiWindowFlags_NoResize
+        | ImGuiWindowFlags_NoMove
+        | ImGuiWindowFlags_NoBringToFrontOnFocus
+        | ImGuiWindowFlags_NoNavFocus;
+
+    ImGui::Begin("FullScreenWindow", nullptr, flags);
     ImGui::Image((ImTextureID)(intptr_t)texture, ImVec2((float)texture->w, (float)texture->h));
     ImGui::End();
+
+    ImGui::PopStyleVar(2);
 }

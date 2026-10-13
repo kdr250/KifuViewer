@@ -54,23 +54,26 @@ void BoardRenderer::Initialize(SDL_Renderer* renderer, TTF_Font* font)
 
 SDL_Texture* BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, const Shogi& shogi)
 {
-    // FIXME
-    SDL_Texture* result = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1024, 768);
+    int w = 300, h = 200;
+    SDL_GetWindowSize(window, &w, &h);
+
+    SDL_Texture* result = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
     SDL_SetRenderTarget(renderer, result);
 
     SDL_SetRenderDrawColor(renderer, 240, 185, 100, 255);
     SDL_FRect rect {
         .x = 0.0f,
         .y = 0.0f,
-        .w = 1024.0f,
-        .h = 768.0f,
+        .w = (float)w,
+        .h = (float)h,
     };
     SDL_RenderFillRect(renderer, &rect);
 
     // 升目を描画
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    float size = 600.0f / 9.0f;
-    float space = 30.0f;
+    float min = std::min(w, h);
+    float size = min * 0.8f / 9.0f;
+    float space = size * 0.001f;
     float padding = size + space;
     for (int i = 0; i <= 9; ++i) {
         SDL_RenderLine(renderer, padding, padding + i * size, padding + 9 * size, padding + i * size);
@@ -80,6 +83,7 @@ SDL_Texture* BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, T
     }
 
     // 盤上の駒を描画
+    float boardHeight = 0.0f;
     const auto& masume = shogi.GetMasume();
     for (int i = 8; i >= 0; --i) {
         for (int j = 0; j <= 8; ++j) {
@@ -102,6 +106,10 @@ SDL_Texture* BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, T
             } else {
                 SDL_RenderTextureRotated(renderer, mTextures[komaName], NULL, &area, 180.0, NULL, SDL_FlipMode::SDL_FLIP_NONE);
             }
+
+            if (j == 8) {
+                boardHeight = area.y;
+            }
         }
     }
 
@@ -111,25 +119,22 @@ SDL_Texture* BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, T
         float offset = padding;
         for (wchar_t ch : komadaiWhite) {
             if (ch == ' ') {
-                offset += 3.0f;
+                offset += size * 0.1f;
                 continue;
             }
 
             SDL_Texture* texture = mTextures[ch];
-            SDL_FRect area {
-                .x = offset,
-                .y = space,
-                .w = (float)texture->w,
-                .h = (float)texture->h,
-            };
+            SDL_FRect area { .x = offset, .y = space, .w = size, .h = size };
 
             if (ch == 'x' || (ch >= L'0' && ch <= L'9')) {
+                area.w *= 0.5f;
+                area.h *= 0.5f;
                 SDL_RenderTexture(renderer, texture, NULL, &area);
             } else {
                 SDL_RenderTextureRotated(renderer, texture, NULL, &area, 180.0, NULL, SDL_FlipMode::SDL_FLIP_NONE);
             }
 
-            offset += texture->w + 3.0f;
+            offset = area.x + area.w + size * 0.1f;
         }
     }
 
@@ -139,20 +144,20 @@ SDL_Texture* BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, T
         float offset = padding;
         for (wchar_t ch : komadaiBlack) {
             if (ch == ' ') {
-                offset += 3.0f;
+                offset += size * 0.1f;
                 continue;
             }
 
             SDL_Texture* texture = mTextures[ch];
-            SDL_FRect area {
-                .x = offset,
-                .y = 700.0f, // FIXME
-                .w = (float)texture->w,
-                .h = (float)texture->h,
-            };
+            SDL_FRect area { .x = offset, .y = boardHeight + padding, .w = size, .h = size };
+
+            if (ch == 'x' || (ch >= L'0' && ch <= L'9')) {
+                area.w *= 0.5f;
+                area.h *= 0.5f;
+            }
 
             SDL_RenderTexture(renderer, texture, NULL, &area);
-            offset += texture->w + 3.0f;
+            offset = area.x + area.w + size * 0.1f;
         }
     }
 
