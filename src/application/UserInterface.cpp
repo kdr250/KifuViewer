@@ -28,8 +28,6 @@ void UserInterface::CreateFrame(SDL_Texture* texture)
     ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::ShowDemoWindow();
-
     DisplayTexture(texture);
 }
 
