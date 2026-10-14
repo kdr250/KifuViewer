@@ -61,6 +61,14 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
 
     ImGui::Begin("FullScreenWindow", nullptr, flags);
     ImGui::Image((ImTextureID)(intptr_t)texture, ImVec2((float)texture->w, (float)texture->h));
+    ImGui::SameLine();
+    ImGui::Button("<<", { 50, 30 });
+    ImGui::SameLine();
+    ImGui::Button("<", { 50, 30 });
+    ImGui::SameLine();
+    ImGui::Button(">", { 50, 30 });
+    ImGui::SameLine();
+    ImGui::Button(">>", { 50, 30 });
     ImGui::End();
 
     ImGui::PopStyleVar(2);
