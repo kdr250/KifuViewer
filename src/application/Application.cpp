@@ -48,6 +48,10 @@ bool Application::Initialize()
     mShogi.SetKifu(kifu);
 
     mUserInterface.Initilaize(mWindow, mRenderer);
+    mUserInterface.mFirstCallback = [&]() { mShogi.First(); };
+    mUserInterface.mBackwardCallback = [&]() { mShogi.Backward(); };
+    mUserInterface.mForwardCallback = [&]() { mShogi.Forward(); };
+    mUserInterface.mLastCallback = [&]() { mShogi.Last(); };
 
     return true;
 }
