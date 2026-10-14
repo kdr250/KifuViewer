@@ -120,7 +120,11 @@ void Application::Render()
 {
     SDL_RenderClear(mRenderer);
 
-    SDL_Texture* texture = mBoardRenderer.Render(mWindow, mRenderer, mFont, mShogi);
+    int w, h;
+    SDL_GetWindowSize(mWindow, &w, &h);
+    unsigned int min = std::min(w, h);
+    unsigned int size = min * 0.9;
+    SDL_Texture* texture = mBoardRenderer.Render(mRenderer, mFont, mShogi, size, size);
 
     mUserInterface.CreateFrame(texture);
     mUserInterface.Render(mRenderer);

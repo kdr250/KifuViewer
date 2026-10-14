@@ -52,11 +52,8 @@ void BoardRenderer::Initialize(SDL_Renderer* renderer, TTF_Font* font)
     }
 }
 
-SDL_Texture* BoardRenderer::Render(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, const Shogi& shogi)
+SDL_Texture* BoardRenderer::Render(SDL_Renderer* renderer, TTF_Font* font, const Shogi& shogi, unsigned int w, unsigned int h)
 {
-    int w = 300, h = 200;
-    SDL_GetWindowSize(window, &w, &h);
-
     SDL_Texture* result = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
     SDL_SetRenderTarget(renderer, result);
 
