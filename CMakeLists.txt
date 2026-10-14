@@ -44,6 +44,9 @@ if (EMSCRIPTEN)
         main PRIVATE
         -sASYNCIFY
         -sALLOW_MEMORY_GROWTH
+        -sFORCE_FILESYSTEM=1
+        -sEXPORTED_RUNTIME_METHODS=[FS]
+        --bind
         --preload-file resources/
     )
 
@@ -55,8 +58,9 @@ if (EMSCRIPTEN)
         Iconv::Iconv
     )
 
-    set_target_properties(main PROPERTIES SUFFIX ".html")
+    set_target_properties(main PROPERTIES SUFFIX ".js")
 
+    file(COPY ${PROJECT_SOURCE_DIR}/index.html DESTINATION ${CMAKE_BINARY_DIR})
     file(COPY ${PROJECT_SOURCE_DIR}/resources DESTINATION ${CMAKE_BINARY_DIR})
 
 else()
