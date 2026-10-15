@@ -5,12 +5,10 @@
 #include <emscripten/val.h>
 #endif
 
-#include "application/FileManager.h"
-
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(my_module)
 {
-    emscripten::function("processUploadedFile", &FileManager::ProcessUploadedFile);
+    emscripten::function("processUploadedFile", &Application::ProcessUploadedFile);
 }
 #endif
 

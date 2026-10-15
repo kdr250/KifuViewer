@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <vector>
 
+#include "FileManager.h"
 #include "reader/KifuReader.h"
 
 bool Application::Initialize()
@@ -80,6 +81,13 @@ void Application::Shutdown()
 bool Application::IsRunning()
 {
     return mIsRunning;
+}
+
+void Application::ProcessUploadedFile(std::string fileName)
+{
+    std::string content = FileManager::ProcessUploadedFile(fileName);
+
+    // TODO
 }
 
 void Application::ProcessInput()
