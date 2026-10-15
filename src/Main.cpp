@@ -18,12 +18,12 @@ int main()
     return 0;
 }
 
+#ifdef __EMSCRIPTEN__
 void ProcessUploadedFile(std::string fileName)
 {
     application.ProcessUploadedFile(fileName);
 }
 
-#ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(my_module)
 {
     emscripten::function("processUploadedFile", &ProcessUploadedFile);

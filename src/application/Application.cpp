@@ -110,7 +110,11 @@ bool Application::IsRunning()
 
 void Application::ProcessUploadedFile(std::string fileName)
 {
-    // TODO
+#ifdef __EMSCRIPTEN__
+    fileName = "/tmp/" + fileName;
+#endif
+    std::shared_ptr<Kifu> kifu = KifuReader::Read(fileName);
+    mShogi.SetKifu(kifu);
 }
 
 void Application::ProcessInput()
