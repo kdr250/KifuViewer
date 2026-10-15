@@ -1,26 +1,31 @@
-#include "MainLoop.h"
+#include "application/Application.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/bind.h>
 #include <emscripten/val.h>
 #endif
 
-#ifdef __EMSCRIPTEN__
-EMSCRIPTEN_BINDINGS(my_module)
-{
-    emscripten::function("processUploadedFile", &Application::ProcessUploadedFile);
-}
-#endif
+Application application;
 
 int main()
 {
-    MainLoop mainLoop;
-
-    if (!mainLoop.Initialize()) {
+    if (!application.Initialize()) {
         return 1;
     }
 
-    mainLoop.RunLoop();
+    application.RunLoop();
 
     return 0;
 }
+
+void ProcessUploadedFile(std::string fileName)
+{
+    application.ProcessUploadedFile(fileName);
+}
+
+#ifdef __EMSCRIPTEN__
+EMSCRIPTEN_BINDINGS(my_module)
+{
+    emscripten::function("processUploadedFile", &ProcessUploadedFile);
+}
+#endif

@@ -3,6 +3,11 @@
 #include <algorithm>
 #include <vector>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
+
 #include "FileManager.h"
 #include "reader/KifuReader.h"
 
@@ -55,6 +60,27 @@ bool Application::Initialize()
     mUserInterface.mLastCallback = [&]() { mShogi.Last(); };
 
     return true;
+}
+
+void Application::RunLoop()
+{
+#ifdef __EMSCRIPTEN__
+    auto callback = [](void* arg) {
+        Application* pApp = reinterpret_cast<Application*>(arg);
+        if (!pApp->IsRunning()) {
+            emscripten_cancel_main_loop();
+            pApp->Shutdown();
+            return;
+        }
+        pApp->Loop();
+    };
+    emscripten_set_main_loop_arg(callback, this, 0, true);
+#else
+    while (IsRunning()) {
+        Loop();
+    }
+    Shutdown();
+#endif
 }
 
 void Application::Loop()

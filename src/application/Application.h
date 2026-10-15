@@ -9,12 +9,13 @@
 class Application {
 public:
     bool Initialize();
+    void RunLoop();
     void Loop();
     void Shutdown();
 
     bool IsRunning();
 
-    static void ProcessUploadedFile(std::string fileName);
+    void ProcessUploadedFile(std::string fileName);
 
 private:
     void ProcessInput();
