@@ -10,6 +10,15 @@
 
 #include "reader/KifuReader.h"
 
+// clang-format off
+#ifdef __EMSCRIPTEN__
+EM_JS(void, OpenFileDialog, (), {
+    const button = document.getElementById('fileInput');
+    button.click();
+});
+#endif
+// clang-format on
+
 bool Application::Initialize()
 {
     // initialize
@@ -190,6 +199,12 @@ void Application::HandleKeyDown(const SDL_Event& event)
         case SDL_SCANCODE_DOWN:
             mShogi.Forward();
             break;
+
+#ifdef __EMSCRIPTEN__
+        case SDL_SCANCODE_F:
+            OpenFileDialog();
+            break;
+#endif
 
         default:
             break;
