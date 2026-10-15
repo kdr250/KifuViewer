@@ -66,6 +66,13 @@ bool Application::Initialize()
     mUserInterface.mBackwardCallback = [&]() { mShogi.Backward(); };
     mUserInterface.mForwardCallback = [&]() { mShogi.Forward(); };
     mUserInterface.mLastCallback = [&]() { mShogi.Last(); };
+    mUserInterface.mFileDialogCallback = [&]() {
+#ifdef __EMSCRIPTEN__
+        OpenFileDialog();
+#else
+    // TODO
+#endif
+    };
 
     return true;
 }
@@ -199,12 +206,6 @@ void Application::HandleKeyDown(const SDL_Event& event)
         case SDL_SCANCODE_DOWN:
             mShogi.Forward();
             break;
-
-#ifdef __EMSCRIPTEN__
-        case SDL_SCANCODE_F:
-            OpenFileDialog();
-            break;
-#endif
 
         default:
             break;

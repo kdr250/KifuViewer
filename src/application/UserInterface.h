@@ -19,6 +19,7 @@ public:
     std::function<void(void)> mBackwardCallback;
     std::function<void(void)> mForwardCallback;
     std::function<void(void)> mLastCallback;
+    std::function<void(void)> mFileDialogCallback;
 
 private:
     void DisplayTexture(SDL_Texture* texture);

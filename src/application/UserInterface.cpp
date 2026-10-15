@@ -77,6 +77,11 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
     if (ImGui::Button(">>", { 50, 30 })) {
         mLastCallback();
     }
+
+    if (ImGui::Button("Upload Kifu", { 100, 50 })) {
+        mFileDialogCallback();
+    }
+
     ImGui::End();
 
     ImGui::PopStyleVar(2);
