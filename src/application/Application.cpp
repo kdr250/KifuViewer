@@ -8,7 +8,6 @@
 #include <emscripten/html5.h>
 #endif
 
-#include "FileManager.h"
 #include "reader/KifuReader.h"
 
 bool Application::Initialize()
@@ -111,8 +110,6 @@ bool Application::IsRunning()
 
 void Application::ProcessUploadedFile(std::string fileName)
 {
-    std::string content = FileManager::ProcessUploadedFile(fileName);
-
     // TODO
 }
 
