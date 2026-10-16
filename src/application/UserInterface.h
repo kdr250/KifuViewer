@@ -24,10 +24,10 @@ public:
     std::function<void(void)> mOpenFileDialogCallback;
 #else
     std::function<void(std::string)> mSelectFileCallback;
-#endif
 
 private:
     bool mOpenFileDialog = false;
+#endif
 
 private:
     void DisplayTexture(SDL_Texture* texture);

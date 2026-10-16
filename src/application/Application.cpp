@@ -31,7 +31,7 @@ bool Application::Initialize()
     }
 
     // create window
-    mWindow = SDL_CreateWindow("Animation", 1024, 768, 0);
+    mWindow = SDL_CreateWindow("Kifu Viewer", 1024, 768, 0);
     if (!mWindow) {
         SDL_Log("failed to create window: %s", SDL_GetError());
         SDL_Quit();
