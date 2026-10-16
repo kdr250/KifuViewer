@@ -14,7 +14,10 @@ void UserInterface::Initilaize(SDL_Window* window, SDL_Renderer* renderer)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+
     ImGuiIO& io = ImGui::GetIO();
+    io.Fonts->AddFontFromFileTTF("resources/font/NotoSans/NotoSansJP-Light.ttf", 18.0f);
+
     ImGui::StyleColorsDark();
 
     ImGui_ImplSDL3_InitForSDLRenderer(window, renderer);
@@ -66,7 +69,7 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
     ImGui::Begin("FullScreenWindow", nullptr, flags);
     ImGui::Image((ImTextureID)(intptr_t)texture, ImVec2((float)texture->w, (float)texture->h));
     ImGui::SameLine();
-    if (ImGui::Button("<<", { 50, 30 })) {
+    if (ImGui::Button("|<", { 50, 30 })) {
         mFirstCallback();
     }
     ImGui::SameLine();
@@ -78,11 +81,11 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
         mForwardCallback();
     }
     ImGui::SameLine();
-    if (ImGui::Button(">>", { 50, 30 })) {
+    if (ImGui::Button(">|", { 50, 30 })) {
         mLastCallback();
     }
 
-    if (ImGui::Button("Upload Kifu", { 100, 50 })) {
+    if (ImGui::Button("開く", { 100, 50 })) {
 #ifdef __EMSCRIPTEN__
         mOpenFileDialogCallback();
 #else
