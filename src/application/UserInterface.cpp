@@ -4,6 +4,10 @@
 #include <imgui_impl_sdl3.h>
 #include <imgui_impl_sdlrenderer3.h>
 
+#ifndef __EMSCRIPTEN__
+#include <ImGuiFileDialog.h>
+#endif
+
 #include <string>
 
 void UserInterface::Initilaize(SDL_Window* window, SDL_Renderer* renderer)
@@ -79,8 +83,38 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
     }
 
     if (ImGui::Button("Upload Kifu", { 100, 50 })) {
-        mFileDialogCallback();
+#ifdef __EMSCRIPTEN__
+        mOpenFileDialogCallback();
+#else
+        mOpenFileDialog = true;
+#endif
     }
+
+#ifndef __EMSCRIPTEN__
+    if (mOpenFileDialog) {
+        auto io = ImGui::GetIO();
+        IGFD::FileDialogConfig config;
+        config.path = "./resources/kifu";
+        config.countSelectionMax = 1;
+        config.flags = ImGuiFileDialogFlags_Modal;
+
+        ImGui::SetNextWindowPos(
+            ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
+            ImGuiCond_Always,
+            ImVec2(0.5f, 0.5f));
+
+        ImGuiFileDialog::Instance()->OpenDialog("LoadKifuFile", "Load Kifu File", ".kif", config);
+
+        if (ImGuiFileDialog::Instance()->Display("LoadKifuFile")) {
+            if (ImGuiFileDialog::Instance()->IsOk()) {
+                std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+                mSelectFileCallback(filePathName);
+            }
+            mOpenFileDialog = false;
+            ImGuiFileDialog::Instance()->Close();
+        }
+    }
+#endif
 
     ImGui::End();
 

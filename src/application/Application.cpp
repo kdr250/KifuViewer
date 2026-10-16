@@ -15,12 +15,6 @@ EM_JS(void, OpenFileDialog, (), {
     const button = document.getElementById('fileInput');
     button.click();
 });
-#else
-void Application::OpenFileDialog()
-{
-    // TODO
-    std::cout << "OpenFileDialog" << std::endl;
-}
 #endif
 
 bool Application::Initialize()
@@ -61,16 +55,16 @@ bool Application::Initialize()
 
     mBoardRenderer.Initialize(mRenderer, mFont);
 
-    // FIXME
-    std::shared_ptr<Kifu> kifu = KifuReader::Read("resources/kifu/test.kif");
-    mShogi.SetKifu(kifu);
-
     mUserInterface.Initilaize(mWindow, mRenderer);
     mUserInterface.mFirstCallback = [&]() { mShogi.First(); };
     mUserInterface.mBackwardCallback = [&]() { mShogi.Backward(); };
     mUserInterface.mForwardCallback = [&]() { mShogi.Forward(); };
     mUserInterface.mLastCallback = [&]() { mShogi.Last(); };
-    mUserInterface.mFileDialogCallback = [&]() { OpenFileDialog(); };
+#ifdef __EMSCRIPTEN__
+    mUserInterface.mOpenFileDialogCallback = [&]() { OpenFileDialog(); };
+#else
+    mUserInterface.mSelectFileCallback = [&](std::string filePathName) { ProcessUploadedFile(filePathName); };
+#endif
 
     return true;
 }

@@ -24,10 +24,6 @@ private:
 
     void HandleKeyDown(const SDL_Event& event);
 
-#ifndef __EMSCRIPTEN__
-    void OpenFileDialog();
-#endif
-
     SDL_Window* mWindow = nullptr;
     SDL_Renderer* mRenderer = nullptr;
 

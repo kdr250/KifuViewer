@@ -40,6 +40,7 @@ else()
         SDL3_ttf::SDL3_ttf
         imgui::imgui
         Iconv::Iconv
+        ImGuiFileDialog
     )
 
     add_custom_command(

@@ -19,7 +19,15 @@ public:
     std::function<void(void)> mBackwardCallback;
     std::function<void(void)> mForwardCallback;
     std::function<void(void)> mLastCallback;
-    std::function<void(void)> mFileDialogCallback;
+
+#ifdef __EMSCRIPTEN__
+    std::function<void(void)> mOpenFileDialogCallback;
+#else
+    std::function<void(std::string)> mSelectFileCallback;
+#endif
+
+private:
+    bool mOpenFileDialog = false;
 
 private:
     void DisplayTexture(SDL_Texture* texture);
