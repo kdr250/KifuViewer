@@ -2,6 +2,7 @@
 
 #include <SDL3/SDL.h>
 #include <functional>
+#include <string>
 
 class UserInterface {
 public:
