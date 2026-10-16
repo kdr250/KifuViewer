@@ -15,6 +15,12 @@ EM_JS(void, OpenFileDialog, (), {
     const button = document.getElementById('fileInput');
     button.click();
 });
+#else
+void Application::OpenFileDialog()
+{
+    // TODO
+    std::cout << "OpenFileDialog" << std::endl;
+}
 #endif
 
 bool Application::Initialize()
@@ -64,13 +70,7 @@ bool Application::Initialize()
     mUserInterface.mBackwardCallback = [&]() { mShogi.Backward(); };
     mUserInterface.mForwardCallback = [&]() { mShogi.Forward(); };
     mUserInterface.mLastCallback = [&]() { mShogi.Last(); };
-    mUserInterface.mFileDialogCallback = [&]() {
-#ifdef __EMSCRIPTEN__
-        OpenFileDialog();
-#else
-    // TODO
-#endif
-    };
+    mUserInterface.mFileDialogCallback = [&]() { OpenFileDialog(); };
 
     return true;
 }
