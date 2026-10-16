@@ -10,14 +10,12 @@
 
 #include "reader/KifuReader.h"
 
-// clang-format off
 #ifdef __EMSCRIPTEN__
 EM_JS(void, OpenFileDialog, (), {
     const button = document.getElementById('fileInput');
     button.click();
 });
 #endif
-// clang-format on
 
 bool Application::Initialize()
 {
