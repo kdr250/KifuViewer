@@ -31,6 +31,7 @@ add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/Zc:__cplusplus>")
 
 if (NOT EMSCRIPTEN)
     add_subdirectory(external/ImGuiFileDialog ImGuiFileDialog)
+    target_compile_definitions(ImGuiFileDialog PRIVATE CUSTOM_IMGUIFILEDIALOG_CONFIG="../ImGuiFileDialogConfig.h")
 endif()
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
