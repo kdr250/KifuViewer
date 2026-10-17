@@ -106,7 +106,7 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
             ImGuiCond_Always,
             ImVec2(0.5f, 0.5f));
 
-        ImGuiFileDialog::Instance()->OpenDialog("LoadKifuFile", "Load Kifu File", ".kif", config);
+        ImGuiFileDialog::Instance()->OpenDialog("LoadKifuFile", "棋譜ファイルを選択", ".kif", config);
 
         if (ImGuiFileDialog::Instance()->Display("LoadKifuFile")) {
             if (ImGuiFileDialog::Instance()->IsOk()) {
