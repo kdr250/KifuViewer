@@ -129,6 +129,7 @@ void Application::ProcessUploadedFile(std::string fileName)
 #endif
     std::shared_ptr<Kifu> kifu = KifuReader::Read(fileName);
     mShogi.SetKifu(kifu);
+    mShogiUpdated = true;
 }
 
 void Application::ProcessInput()
