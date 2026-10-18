@@ -55,11 +55,17 @@ bool Application::Initialize()
 
     mBoardRenderer.Initialize(mRenderer, mFont);
 
+    int w, h;
+    SDL_GetWindowSize(mWindow, &w, &h);
+    unsigned int min = std::min(w, h);
+    unsigned int size = min * 0.9;
+    mBoardTexture = mBoardRenderer.Render(mRenderer, mFont, mShogi, size, size);
+
     mUserInterface.Initilaize(mWindow, mRenderer);
-    mUserInterface.mFirstCallback = [&]() { mShogi.First(); };
-    mUserInterface.mBackwardCallback = [&]() { mShogi.Backward(); };
-    mUserInterface.mForwardCallback = [&]() { mShogi.Forward(); };
-    mUserInterface.mLastCallback = [&]() { mShogi.Last(); };
+    mUserInterface.mFirstCallback = [&]() { FirstShogi(); };
+    mUserInterface.mBackwardCallback = [&]() { BackwardShogi(); };
+    mUserInterface.mForwardCallback = [&]() { ForwardShogi(); };
+    mUserInterface.mLastCallback = [&]() { LastShogi(); };
 #ifdef __EMSCRIPTEN__
     mUserInterface.mOpenFileDialogCallback = [&]() { OpenFileDialog(); };
 #else
@@ -167,13 +173,19 @@ void Application::Render()
 {
     SDL_RenderClear(mRenderer);
 
-    int w, h;
-    SDL_GetWindowSize(mWindow, &w, &h);
-    unsigned int min = std::min(w, h);
-    unsigned int size = min * 0.9;
-    SDL_Texture* texture = mBoardRenderer.Render(mRenderer, mFont, mShogi, size, size);
+    if (mShogiUpdated) {
+        SDL_DestroyTexture(mBoardTexture);
 
-    mUserInterface.CreateFrame(texture);
+        int w, h;
+        SDL_GetWindowSize(mWindow, &w, &h);
+        unsigned int min = std::min(w, h);
+        unsigned int size = min * 0.9;
+        mBoardTexture = mBoardRenderer.Render(mRenderer, mFont, mShogi, size, size);
+
+        mShogiUpdated = false;
+    }
+
+    mUserInterface.CreateFrame(mBoardTexture);
     mUserInterface.Render(mRenderer);
 
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
@@ -184,22 +196,46 @@ void Application::HandleKeyDown(const SDL_Event& event)
 {
     switch (event.key.scancode) {
         case SDL_SCANCODE_LEFT:
-            mShogi.First();
+            FirstShogi();
             break;
 
         case SDL_SCANCODE_RIGHT:
-            mShogi.Last();
+            LastShogi();
             break;
 
         case SDL_SCANCODE_UP:
-            mShogi.Backward();
+            BackwardShogi();
             break;
 
         case SDL_SCANCODE_DOWN:
-            mShogi.Forward();
+            ForwardShogi();
             break;
 
         default:
             break;
     }
+}
+
+void Application::FirstShogi()
+{
+    mShogi.First();
+    mShogiUpdated = true;
+}
+
+void Application::ForwardShogi()
+{
+    mShogi.Forward();
+    mShogiUpdated = true;
+}
+
+void Application::BackwardShogi()
+{
+    mShogi.Backward();
+    mShogiUpdated = true;
+}
+
+void Application::LastShogi()
+{
+    mShogi.Last();
+    mShogiUpdated = true;
 }

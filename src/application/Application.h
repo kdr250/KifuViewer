@@ -24,6 +24,11 @@ private:
 
     void HandleKeyDown(const SDL_Event& event);
 
+    void FirstShogi();
+    void ForwardShogi();
+    void BackwardShogi();
+    void LastShogi();
+
     SDL_Window* mWindow = nullptr;
     SDL_Renderer* mRenderer = nullptr;
 
@@ -34,8 +39,10 @@ private:
     TTF_TextEngine* mEngine;
 
     BoardRenderer mBoardRenderer;
+    SDL_Texture* mBoardTexture = nullptr;
 
     Shogi mShogi;
+    bool mShogiUpdated = false;
 
     UserInterface mUserInterface;
 };
