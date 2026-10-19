@@ -16,6 +16,10 @@ const std::array<std::string, 9> dan {
     "一", "二", "三", "四", "五", "六", "七", "八", "九"
 };
 
+const std::array<std::string, 12> ends {
+    "中断", "投了", "持将棋", "千日手", "切れ負け", "反則勝ち", "反則負け", "入玉勝ち", "不戦勝", "不戦敗", "詰み", "不詰み"
+};
+
 static std::pair<char, char> PREVIOUS_DESTINATION = std::make_pair(0, 0);
 
 bool IsNumeric(const std::string& str)
@@ -81,7 +85,7 @@ std::optional<MoveCommand> KifuReader::Parse(const std::string& id, const std::s
     std::vector<std::string> targets = StringConverter::Split(move);
     auto iter = targets.begin();
 
-    if (*iter == "詰") {
+    if (std::find(ends.begin(), ends.end(), move) != ends.end()) {
         return std::nullopt;
     }
 

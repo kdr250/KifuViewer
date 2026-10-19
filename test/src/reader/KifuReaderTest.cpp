@@ -5,7 +5,7 @@
 
 #include <fstream>
 
-using Parameters = std::pair<std::string, MoveCommand>;
+using Parameters = std::pair<std::string, std::optional<MoveCommand>>;
 
 class Parameterized : public testing::TestWithParam<Parameters> { };
 
@@ -25,6 +25,18 @@ std::vector<Parameters> parameters = {
     { "58 同　香成(51)", MoveCommand({ 4, 0 }, KifuReader::PreviousDestination(), KomaType::Kyo, Direction::White, true) },
     { "58 同　香不成(51)", MoveCommand({ 4, 0 }, KifuReader::PreviousDestination(), KomaType::Kyo, Direction::White, false) },
     { "57 同　成銀(56)", MoveCommand({ 4, 5 }, KifuReader::PreviousDestination(), KomaType::NariGin, Direction::Black, false) },
+    { "57 中断", std::nullopt },
+    { "57 投了", std::nullopt },
+    { "57 持将棋", std::nullopt },
+    { "57 千日手", std::nullopt },
+    { "57 切れ負け", std::nullopt },
+    { "57 反則勝ち", std::nullopt },
+    { "57 反則負け", std::nullopt },
+    { "57 入玉勝ち", std::nullopt },
+    { "57 不戦勝", std::nullopt },
+    { "57 不戦敗", std::nullopt },
+    { "57 詰み", std::nullopt },
+    { "57 不詰", std::nullopt },
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -39,8 +51,7 @@ TEST_P(Parameterized, Parse)
     std::stringstream ss(value);
     auto actual = KifuReader::Parse(ss);
 
-    EXPECT_TRUE(actual.has_value());
-    EXPECT_EQ(expected, actual.value());
+    EXPECT_EQ(expected, actual);
 }
 
 TEST(KifuReader, Read)
