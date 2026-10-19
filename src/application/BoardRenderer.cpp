@@ -121,17 +121,17 @@ SDL_Texture* BoardRenderer::Render(SDL_Renderer* renderer, TTF_Font* font, const
             }
 
             SDL_Texture* texture = mTextures[ch];
-            SDL_FRect area { .x = offset, .y = space, .w = size, .h = size };
+            SDL_FRect area { .x = offset, .y = space, .w = size * 0.8f, .h = size * 0.8f };
 
             if (ch == 'x' || (ch >= L'0' && ch <= L'9')) {
-                area.w *= 0.5f;
-                area.h *= 0.5f;
+                area.w *= 0.2f;
+                area.h *= 0.4f;
                 SDL_RenderTexture(renderer, texture, NULL, &area);
             } else {
                 SDL_RenderTextureRotated(renderer, texture, NULL, &area, 180.0, NULL, SDL_FlipMode::SDL_FLIP_NONE);
             }
 
-            offset = area.x + area.w + size * 0.1f;
+            offset = area.x + area.w + size * 0.05f;
         }
     }
 
@@ -146,15 +146,15 @@ SDL_Texture* BoardRenderer::Render(SDL_Renderer* renderer, TTF_Font* font, const
             }
 
             SDL_Texture* texture = mTextures[ch];
-            SDL_FRect area { .x = offset, .y = boardHeight + padding, .w = size, .h = size };
+            SDL_FRect area { .x = offset, .y = boardHeight + padding, .w = size * 0.8f, .h = size * 0.8f };
 
             if (ch == 'x' || (ch >= L'0' && ch <= L'9')) {
-                area.w *= 0.5f;
-                area.h *= 0.5f;
+                area.w *= 0.2f;
+                area.h *= 0.4f;
             }
 
             SDL_RenderTexture(renderer, texture, NULL, &area);
-            offset = area.x + area.w + size * 0.1f;
+            offset = area.x + area.w + size * 0.05f;
         }
     }
 
