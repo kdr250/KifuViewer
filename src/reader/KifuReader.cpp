@@ -40,10 +40,12 @@ std::shared_ptr<Kifu> KifuReader::Read(const std::string& filePath)
 
     std::stringstream ss;
     ss << file.rdbuf();
-    std::string utf8 = StringConverter::Encode(ss.str(), "SHIFT_JIS", "UTF-8");
 
-    ss.str(utf8);
-    ss.clear();
+    if (StringConverter::IsSJIS(ss.str())) {
+        std::string utf8 = StringConverter::Encode(ss.str(), "SHIFT_JIS", "UTF-8");
+        ss.str(utf8);
+        ss.clear();
+    }
 
     std::string line;
     while (std::getline(ss, line)) {

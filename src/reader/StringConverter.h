@@ -12,4 +12,6 @@ namespace StringConverter {
     size_t GetUTF8CharLength(unsigned char loadingByte);
 
     std::vector<std::string> Split(const std::string& utf8Str);
+
+    bool IsSJIS(const std::string& str);
 }

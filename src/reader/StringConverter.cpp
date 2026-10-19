@@ -107,3 +107,31 @@ std::vector<std::string> StringConverter::Split(const std::string& utf8Str)
 
     return actual;
 }
+
+bool StringConverter::IsSJIS(const std::string& str)
+{
+    const unsigned char* data = reinterpret_cast<const unsigned char*>(str.data());
+    size_t len = str.size();
+
+    size_t i = 0;
+    while (i < len) {
+        unsigned char c = data[i];
+        if ((c <= 0x7F) || (c >= 0xA1 && c <= 0xDF)) {
+            // 1バイト文字(ASCIIまたは半角カナ)
+            i++;
+        } else if ((c >= 0x81 && c <= 0x9F) || (c >= 0xE0 && c <= 0xEF)) {
+            // 2バイト文字の先頭
+            if (i + 1 >= len) {
+                return false; // 続きバイトが存在しない
+            }
+            unsigned char c2 = data[i + 1];
+            if (!((c2 >= 0x40 && c2 <= 0x7E) || (c2 >= 0x80 && c2 <= 0xFC))) { // 2バイト文字の範囲外
+                return false;
+            }
+            i += 2;
+        } else {
+            return false;
+        }
+    }
+    return true;
+}
