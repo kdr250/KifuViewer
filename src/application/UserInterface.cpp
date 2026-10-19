@@ -17,6 +17,7 @@ void UserInterface::Initilaize(SDL_Window* window, SDL_Renderer* renderer)
 
     ImGuiIO& io = ImGui::GetIO();
     io.Fonts->AddFontFromFileTTF("resources/font/NotoSans/NotoSansJP-Light.ttf", 18.0f);
+    io.IniFilename = "resources/ui/imgui.ini";
 
     ImGui::StyleColorsDark();
 
