@@ -1,2 +1,2 @@
-# WIP: Kifu Viewer
+# Kifu Viewer
 棋譜ファイルの扱い方を学習するためのレポジトリ
