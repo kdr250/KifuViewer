@@ -47,8 +47,6 @@ if (EMSCRIPTEN)
 
     target_link_options(
         main PRIVATE
-        -sASYNCIFY
-        -sALLOW_MEMORY_GROWTH
         -sFORCE_FILESYSTEM=1
         -sEXPORTED_RUNTIME_METHODS=[FS]
         --bind
