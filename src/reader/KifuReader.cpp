@@ -40,8 +40,6 @@ std::shared_ptr<Kifu> KifuReader::Read(const std::string& filePath)
         return nullptr;
     }
 
-    std::vector<MoveCommand> commands;
-
     std::stringstream ss;
     ss << file.rdbuf();
 
@@ -51,8 +49,20 @@ std::shared_ptr<Kifu> KifuReader::Read(const std::string& filePath)
         ss.clear();
     }
 
+    std::vector<MoveCommand> commands = ParseAll(ss);
+
+    return std::make_shared<Kifu>(commands);
+}
+
+std::vector<MoveCommand> KifuReader::ParseAll(std::stringstream& stream)
+{
+    std::vector<MoveCommand> commands;
+
     std::string line;
-    while (std::getline(ss, line)) {
+    while (std::getline(stream, line)) {
+        if (line.starts_with("変化：")) { // TODO: 変化を扱えるようにする
+            break;
+        }
         std::stringstream lineStream(line);
         std::optional<MoveCommand> result = Parse(lineStream);
         if (result.has_value()) {
@@ -60,7 +70,7 @@ std::shared_ptr<Kifu> KifuReader::Read(const std::string& filePath)
         }
     }
 
-    return std::make_shared<Kifu>(commands);
+    return commands;
 }
 
 std::optional<MoveCommand> KifuReader::Parse(std::stringstream& lineStream)

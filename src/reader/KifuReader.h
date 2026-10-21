@@ -10,6 +10,7 @@
 namespace KifuReader {
     std::shared_ptr<Kifu> Read(const std::string& filePath);
 
+    std::vector<MoveCommand> ParseAll(std::stringstream& stream);
     std::optional<MoveCommand> Parse(std::stringstream& lineStream);
     std::optional<MoveCommand> Parse(const std::string& id, const std::string& move);
 
