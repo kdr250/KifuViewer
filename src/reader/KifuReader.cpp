@@ -33,7 +33,7 @@ bool IsNumeric(const std::string& str)
     });
 }
 
-std::shared_ptr<Kifu> KifuReader::Read(const std::string& filePath)
+std::shared_ptr<Kifu> KifuReader::ReadFromFile(const std::string& filePath)
 {
     std::ifstream file(filePath);
     if (!file.is_open()) {
@@ -43,6 +43,17 @@ std::shared_ptr<Kifu> KifuReader::Read(const std::string& filePath)
     std::stringstream ss;
     ss << file.rdbuf();
 
+    return Read(ss);
+}
+
+std::shared_ptr<Kifu> KifuReader::Read(const std::string& content)
+{
+    std::stringstream ss(content);
+    return Read(ss);
+}
+
+std::shared_ptr<Kifu> KifuReader::Read(std::stringstream& ss)
+{
     if (StringConverter::IsSJIS(ss.str())) {
         std::string utf8 = StringConverter::Encode(ss.str(), "SHIFT_JIS", "UTF-8");
         ss.str(utf8);

@@ -66,6 +66,7 @@ bool Application::Initialize()
     mUserInterface.mBackwardCallback = [&]() { BackwardShogi(); };
     mUserInterface.mForwardCallback = [&]() { ForwardShogi(); };
     mUserInterface.mLastCallback = [&]() { LastShogi(); };
+    mUserInterface.mPasteKifuCallback = [&](std::string content) { ProcessUploadedText(content); };
 #ifdef __EMSCRIPTEN__
     mUserInterface.mOpenFileDialogCallback = [&]() { OpenFileDialog(); };
 #else
@@ -127,7 +128,14 @@ void Application::ProcessUploadedFile(std::string fileName)
 #ifdef __EMSCRIPTEN__
     fileName = "/tmp/" + fileName;
 #endif
-    std::shared_ptr<Kifu> kifu = KifuReader::Read(fileName);
+    std::shared_ptr<Kifu> kifu = KifuReader::ReadFromFile(fileName);
+    mShogi.SetKifu(kifu);
+    mShogiUpdated = true;
+}
+
+void Application::ProcessUploadedText(std::string content)
+{
+    std::shared_ptr<Kifu> kifu = KifuReader::Read(content);
     mShogi.SetKifu(kifu);
     mShogiUpdated = true;
 }

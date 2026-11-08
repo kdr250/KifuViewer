@@ -16,6 +16,7 @@ public:
     bool IsRunning();
 
     void ProcessUploadedFile(std::string fileName);
+    void ProcessUploadedText(std::string content);
 
 private:
     void ProcessInput();

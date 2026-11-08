@@ -80,7 +80,7 @@ TEST(KifuReader, Read)
 先: 
 )";
 
-    std::shared_ptr<Kifu> kifu = KifuReader::Read("resources/kifu/joban.kif");
+    std::shared_ptr<Kifu> kifu = KifuReader::ReadFromFile("resources/kifu/joban.kif");
 
     Shogi shogi;
     shogi.SetKifu(kifu);
@@ -117,7 +117,7 @@ TEST(KifuReader, ReadAllKifu)
 先: 歩x2 銀x2 角x1 
 )";
 
-    std::shared_ptr<Kifu> kifu = KifuReader::Read("resources/kifu/all.kif");
+    std::shared_ptr<Kifu> kifu = KifuReader::ReadFromFile("resources/kifu/all.kif");
 
     Shogi shogi;
     shogi.SetKifu(kifu);

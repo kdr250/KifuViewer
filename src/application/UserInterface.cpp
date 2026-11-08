@@ -3,12 +3,11 @@
 #include <imgui.h>
 #include <imgui_impl_sdl3.h>
 #include <imgui_impl_sdlrenderer3.h>
+#include <imgui_stdlib.h>
 
 #ifndef __EMSCRIPTEN__
 #include <ImGuiFileDialog.h>
 #endif
-
-#include <string>
 
 void UserInterface::Initilaize(SDL_Window* window, SDL_Renderer* renderer)
 {
@@ -94,6 +93,11 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
 #endif
     }
 
+    ImGui::SameLine();
+    if (ImGui::Button("貼り付け", { 100, 50 })) {
+        ImGui::OpenPopup("貼り付け");
+    }
+
 #ifndef __EMSCRIPTEN__
     if (mOpenFileDialog) {
         auto io = ImGui::GetIO();
@@ -119,6 +123,24 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
         }
     }
 #endif
+
+    if (ImGui::BeginPopupModal("貼り付け")) {
+        ImGui::Text("以下の棋譜を取り込みます");
+
+        std::string str(ImGui::GetClipboardText());
+        ImGui::InputTextMultiline("##KifuText", &str);
+
+        if (ImGui::Button("取り込む")) {
+            mPasteKifuCallback(str);
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("キャンセル")) {
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::EndPopup();
+    }
 
     ImGui::End();
 

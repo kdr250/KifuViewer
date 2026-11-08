@@ -8,7 +8,9 @@
  * 棋譜ファイル読み取り
  */
 namespace KifuReader {
-    std::shared_ptr<Kifu> Read(const std::string& filePath);
+    std::shared_ptr<Kifu> ReadFromFile(const std::string& filePath);
+    std::shared_ptr<Kifu> Read(const std::string& content);
+    std::shared_ptr<Kifu> Read(std::stringstream& ss);
 
     std::vector<MoveCommand> ParseAll(std::stringstream& stream);
     std::optional<MoveCommand> Parse(std::stringstream& lineStream);

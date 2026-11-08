@@ -20,6 +20,7 @@ public:
     std::function<void(void)> mBackwardCallback;
     std::function<void(void)> mForwardCallback;
     std::function<void(void)> mLastCallback;
+    std::function<void(std::string)> mPasteKifuCallback;
 
 #ifdef __EMSCRIPTEN__
     std::function<void(void)> mOpenFileDialogCallback;
