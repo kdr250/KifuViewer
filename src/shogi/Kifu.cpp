@@ -37,3 +37,8 @@ void Kifu::Backward(unsigned int num)
 {
     mCurrentIndex = std::max(mCurrentIndex - (int)num, -1);
 }
+
+bool Kifu::Empty()
+{
+    return mCommands.empty();
+}

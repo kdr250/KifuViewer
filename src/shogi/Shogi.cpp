@@ -21,7 +21,7 @@ void Shogi::First()
 
 void Shogi::Last()
 {
-    if (mKifu == nullptr) {
+    if (mKifu == nullptr || mKifu->Empty()) {
         return;
     }
     mKifu->Last();
@@ -32,7 +32,7 @@ void Shogi::Last()
 
 void Shogi::Forward(unsigned int num)
 {
-    if (mKifu == nullptr) {
+    if (mKifu == nullptr || mKifu->Empty()) {
         return;
     }
     mKifu->Forward(num);
@@ -43,7 +43,7 @@ void Shogi::Forward(unsigned int num)
 
 void Shogi::Backward(unsigned int num)
 {
-    if (mKifu == nullptr) {
+    if (mKifu == nullptr || mKifu->Empty()) {
         return;
     }
     mKifu->Backward(num);

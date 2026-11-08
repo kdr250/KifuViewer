@@ -20,6 +20,8 @@ public:
     void Forward(unsigned int num = 1);
     void Backward(unsigned int num = 1);
 
+    bool Empty();
+
 private:
     std::vector<MoveCommand> mCommands;
     int mCurrentIndex;
