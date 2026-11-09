@@ -29,9 +29,6 @@ jobs:
           git pull origin master
           cd $current_dir
 
-      - name: Setup Ninja
-        uses: seanmiddleditch/gha-setup-ninja@master
-
       - name: Setup Emscripten
         uses: mymindstorm/setup-emsdk@v14
         with:
