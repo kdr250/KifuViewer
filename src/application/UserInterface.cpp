@@ -5,9 +5,24 @@
 #include <imgui_impl_sdlrenderer3.h>
 #include <imgui_stdlib.h>
 
-#ifndef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#else
 #include <ImGuiFileDialog.h>
 #endif
+
+#ifdef __EMSCRIPTEN__
+extern "C" {
+EMSCRIPTEN_KEEPALIVE void InjectWebPaste(const char* text)
+{
+    if (ImGui::GetCurrentContext() != nullptr && text != nullptr) {
+        ImGui::GetIO().AddInputCharactersUTF8(text);
+    }
+}
+}
+#endif
+
+static std::string kifuStr;
 
 void UserInterface::Initilaize(SDL_Window* window, SDL_Renderer* renderer)
 {
@@ -95,6 +110,7 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
 
     ImGui::SameLine();
     if (ImGui::Button("貼り付け", { 100, 50 })) {
+        kifuStr.clear();
         ImGui::OpenPopup("貼り付け");
     }
 
@@ -127,11 +143,14 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
     if (ImGui::BeginPopupModal("貼り付け")) {
         ImGui::Text("以下の棋譜を取り込みます");
 
-        std::string str(ImGui::GetClipboardText());
-        ImGui::InputTextMultiline("##KifuText", &str);
+#ifndef __EMSCRIPTEN__
+        kifuStr = ImGui::GetClipboardText();
+#endif
+
+        ImGui::InputTextMultiline("##KifuText", &kifuStr);
 
         if (ImGui::Button("取り込む")) {
-            mPasteKifuCallback(str);
+            mPasteKifuCallback(kifuStr);
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();

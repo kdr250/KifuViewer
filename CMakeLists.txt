@@ -48,7 +48,8 @@ if (EMSCRIPTEN)
     target_link_options(
         main PRIVATE
         -sFORCE_FILESYSTEM=1
-        -sEXPORTED_RUNTIME_METHODS=[FS]
+        -sEXPORTED_FUNCTIONS=[_main,_malloc,_free]
+        -sEXPORTED_RUNTIME_METHODS=[FS,lengthBytesUTF8,stringToUTF8]
         --bind
         --preload-file resources/
     )
