@@ -259,6 +259,21 @@
 
           reader.readAsArrayBuffer(file);
         });
+
+        window.addEventListener('paste', (event) => {
+          const pasteData = (event.clipboardData || window.clipboardData).getData('text');
+          if (pasteData) {
+            if (typeof Module !== 'undefined' && Module._InjectWebPaste) {
+              const bufferSize = Module.lengthBytesUTF8(pasteData) + 1;
+              const buffer = Module._malloc(bufferSize);
+              Module.stringToUTF8(pasteData, buffer, bufferSize);
+
+              Module._InjectWebPaste(buffer);
+
+              Module._free(buffer);
+            }
+          }
+        });
       }
     };
     Module.setStatus('Downloading...');
