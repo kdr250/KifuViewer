@@ -260,6 +260,12 @@
           reader.readAsArrayBuffer(file);
         });
 
+        window.addEventListener('keydown', (event) => {
+          if (event.ctrlKey && event.key == 'v') {
+            event.stopImmediatePropagation();
+          }
+        }), true;
+
         window.addEventListener('paste', (event) => {
           const pasteData = (event.clipboardData || window.clipboardData).getData('text');
           if (pasteData) {
