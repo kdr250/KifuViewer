@@ -11,18 +11,20 @@
 #include <ImGuiFileDialog.h>
 #endif
 
+static std::string kifuStr;
+static bool isPasted = false;
+
 #ifdef __EMSCRIPTEN__
 extern "C" {
 EMSCRIPTEN_KEEPALIVE void InjectWebPaste(const char* text)
 {
     if (ImGui::GetCurrentContext() != nullptr && text != nullptr) {
-        ImGui::GetIO().AddInputCharactersUTF8(text);
+        kifuStr = std::string(text);
+        isPasted = true;
     }
 }
 }
 #endif
-
-static std::string kifuStr;
 
 void UserInterface::Initilaize(SDL_Window* window, SDL_Renderer* renderer)
 {
@@ -42,6 +44,13 @@ void UserInterface::Initilaize(SDL_Window* window, SDL_Renderer* renderer)
 void UserInterface::ProcessEvent(const SDL_Event& event)
 {
     ImGui_ImplSDL3_ProcessEvent(&event);
+
+#ifdef __EMSCRIPTEN__
+    if (isPasted) {
+        ImGui::GetIO().AddInputCharactersUTF8(kifuStr.c_str());
+        isPasted = false;
+    }
+#endif
 }
 
 void UserInterface::CreateFrame(SDL_Texture* texture)
