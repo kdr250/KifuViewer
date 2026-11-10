@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <ostream>
+#include <sstream>
 
 #include "Koma.h"
 
@@ -26,8 +27,24 @@ struct MoveCommand {
             && direction == other.direction
             && isNaru == other.isNaru;
     }
+
+    inline std::string ToDisplayString() const
+    {
+        std::stringstream ss;
+        std::string suji = std::to_string(destination.first + 1);
+        std::string dan = std::to_string(destination.second + 1);
+        std::string komaName = Koma::ToString(type);
+        ss << suji << dan << komaName;
+        if (isNaru) {
+            ss << "成";
+        }
+        return ss.str();
+    }
 };
 
+/**
+ * for debug
+ */
 inline std::ostream& operator<<(std::ostream& os, const MoveCommand& command)
 {
     auto& [originS, originD] = command.origin;
