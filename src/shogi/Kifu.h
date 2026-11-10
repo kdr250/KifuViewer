@@ -22,6 +22,11 @@ public:
 
     bool Empty();
 
+    std::vector<std::string> ToDisplayStrings() const;
+
+    int GetCurrentIndex();
+    void SetCurrentIndex(int index);
+
 private:
     std::vector<MoveCommand> mCommands;
     int mCurrentIndex;

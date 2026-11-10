@@ -29,6 +29,7 @@ private:
     void ForwardShogi();
     void BackwardShogi();
     void LastShogi();
+    void OnKifuChanged(int index);
 
     SDL_Window* mWindow = nullptr;
     SDL_Renderer* mRenderer = nullptr;

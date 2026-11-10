@@ -4,13 +4,15 @@
 #include <functional>
 #include <string>
 
+#include "shogi/Kifu.h"
+
 class UserInterface {
 public:
     void Initilaize(SDL_Window* window, SDL_Renderer* renderer);
 
     void ProcessEvent(const SDL_Event& event);
 
-    void CreateFrame(SDL_Texture* texture);
+    void CreateFrame(SDL_Texture* texture, const std::vector<std::string>& kifuStrings, int currentKifuIndex);
     void Render(SDL_Renderer* renderer);
 
     void Cleanup();
@@ -20,6 +22,7 @@ public:
     std::function<void(void)> mBackwardCallback;
     std::function<void(void)> mForwardCallback;
     std::function<void(void)> mLastCallback;
+    std::function<void(int index)> mKifuChangedCallback;
     std::function<void(std::string)> mPasteKifuCallback;
 
 #ifdef __EMSCRIPTEN__
@@ -32,5 +35,5 @@ private:
 #endif
 
 private:
-    void DisplayTexture(SDL_Texture* texture);
+    void DisplayTexture(SDL_Texture* texture, const std::vector<std::string>& kifuStrings, int currentKifuIndex);
 };

@@ -66,6 +66,7 @@ bool Application::Initialize()
     mUserInterface.mBackwardCallback = [&]() { BackwardShogi(); };
     mUserInterface.mForwardCallback = [&]() { ForwardShogi(); };
     mUserInterface.mLastCallback = [&]() { LastShogi(); };
+    mUserInterface.mKifuChangedCallback = [&](int index) { OnKifuChanged(index); };
     mUserInterface.mPasteKifuCallback = [&](std::string content) { ProcessUploadedText(content); };
 #ifdef __EMSCRIPTEN__
     mUserInterface.mOpenFileDialogCallback = [&]() { OpenFileDialog(); };
@@ -194,7 +195,7 @@ void Application::Render()
         mShogiUpdated = false;
     }
 
-    mUserInterface.CreateFrame(mBoardTexture);
+    mUserInterface.CreateFrame(mBoardTexture, mShogi.GetKifuStrings(), mShogi.GetCurrentKifuIndex());
     mUserInterface.Render(mRenderer);
 
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
@@ -246,5 +247,11 @@ void Application::BackwardShogi()
 void Application::LastShogi()
 {
     mShogi.Last();
+    mShogiUpdated = true;
+}
+
+void Application::OnKifuChanged(int index)
+{
+    mShogi.MoveTo(index);
     mShogiUpdated = true;
 }

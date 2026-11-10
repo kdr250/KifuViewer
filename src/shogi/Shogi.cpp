@@ -11,6 +11,11 @@ void Shogi::SetKifu(const std::shared_ptr<Kifu>& kifu)
     mBoard.Reset();
 }
 
+bool Shogi::HasKifu() const
+{
+    return mKifu != nullptr;
+}
+
 void Shogi::First()
 {
     if (mKifu) {
@@ -28,6 +33,33 @@ void Shogi::Last()
     std::span<MoveCommand> commands = mKifu->GetMoveCommands();
     mBoard.Reset();
     mBoard.Move(commands);
+}
+
+void Shogi::MoveTo(int index)
+{
+    if (mKifu == nullptr || mKifu->Empty()) {
+        return;
+    }
+    mKifu->SetCurrentIndex(index);
+    std::span<MoveCommand> commands = mKifu->GetMoveCommands();
+    mBoard.Reset();
+    mBoard.Move(commands);
+}
+
+int Shogi::GetCurrentKifuIndex()
+{
+    if (mKifu == nullptr || mKifu->Empty()) {
+        return -1;
+    }
+    return mKifu->GetCurrentIndex();
+}
+
+std::vector<std::string> Shogi::GetKifuStrings()
+{
+    if (mKifu == nullptr || mKifu->Empty()) {
+        return std::vector<std::string>();
+    }
+    return mKifu->ToDisplayStrings();
 }
 
 void Shogi::Forward(unsigned int num)

@@ -53,13 +53,13 @@ void UserInterface::ProcessEvent(const SDL_Event& event)
 #endif
 }
 
-void UserInterface::CreateFrame(SDL_Texture* texture)
+void UserInterface::CreateFrame(SDL_Texture* texture, const std::vector<std::string>& kifuStrings, int currentKifuIndex)
 {
     ImGui_ImplSDLRenderer3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
 
-    DisplayTexture(texture);
+    DisplayTexture(texture, kifuStrings, currentKifuIndex);
 }
 
 void UserInterface::Render(SDL_Renderer* renderer)
@@ -75,7 +75,7 @@ void UserInterface::Cleanup()
     ImGui::DestroyContext();
 }
 
-void UserInterface::DisplayTexture(SDL_Texture* texture)
+void UserInterface::DisplayTexture(SDL_Texture* texture, const std::vector<std::string>& kifuStrings, int currentKifuIndex)
 {
     const ImGuiViewport* viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -93,20 +93,37 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
     ImGui::Begin("FullScreenWindow", nullptr, flags);
     ImGui::Image((ImTextureID)(intptr_t)texture, ImVec2((float)texture->w, (float)texture->h));
     ImGui::SameLine();
-    if (ImGui::Button("|<", { 50, 30 })) {
-        mFirstCallback();
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("<", { 50, 30 })) {
-        mBackwardCallback();
-    }
-    ImGui::SameLine();
-    if (ImGui::Button(">", { 50, 30 })) {
-        mForwardCallback();
-    }
-    ImGui::SameLine();
-    if (ImGui::Button(">|", { 50, 30 })) {
-        mLastCallback();
+
+    {
+        ImGui::BeginGroup();
+        if (ImGui::Button("|<", { 50, 30 })) {
+            mFirstCallback();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("<", { 50, 30 })) {
+            mBackwardCallback();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button(">", { 50, 30 })) {
+            mForwardCallback();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button(">|", { 50, 30 })) {
+            mLastCallback();
+        }
+
+        ImGui::NewLine();
+        if (!kifuStrings.empty()) {
+            auto converter = [](void* userData, int index) {
+                const std::vector<std::string>* vec = ((std::vector<std::string>*)userData);
+                const char* result = vec->at(index).c_str();
+                return result;
+            };
+            if (ImGui::ListBox("##Moves", &currentKifuIndex, converter, (void*)&kifuStrings, (int)kifuStrings.size())) {
+                mKifuChangedCallback(currentKifuIndex);
+            }
+        }
+        ImGui::EndGroup();
     }
 
     if (ImGui::Button("開く", { 100, 50 })) {
