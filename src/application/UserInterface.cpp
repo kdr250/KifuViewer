@@ -144,7 +144,8 @@ void UserInterface::DisplayTexture(SDL_Texture* texture)
         ImGui::Text("以下の棋譜を取り込みます");
 
 #ifndef __EMSCRIPTEN__
-        kifuStr = ImGui::GetClipboardText();
+        const char* clipboard = ImGui::GetClipboardText();
+        kifuStr = clipboard != nullptr ? clipboard : "";
 #endif
 
         ImGui::InputTextMultiline("##KifuText", &kifuStr);
