@@ -36,4 +36,8 @@ private:
 
 private:
     void DisplayTexture(SDL_Texture* texture, const std::vector<std::string>& kifuStrings, int currentKifuIndex);
+
+public:
+    inline static std::string kifuStr = std::string();
+    inline static bool isPasted = false;
 };

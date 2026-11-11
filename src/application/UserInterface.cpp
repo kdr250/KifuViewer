@@ -11,16 +11,13 @@
 #include <ImGuiFileDialog.h>
 #endif
 
-static std::string kifuStr;
-static bool isPasted = false;
-
 #ifdef __EMSCRIPTEN__
 extern "C" {
 EMSCRIPTEN_KEEPALIVE void InjectWebPaste(const char* text)
 {
     if (ImGui::GetCurrentContext() != nullptr && text != nullptr) {
-        kifuStr = std::string(text);
-        isPasted = true;
+        UserInterface::kifuStr = std::string(text);
+        UserInterface::isPasted = true;
     }
 }
 }
@@ -44,13 +41,6 @@ void UserInterface::Initilaize(SDL_Window* window, SDL_Renderer* renderer)
 void UserInterface::ProcessEvent(const SDL_Event& event)
 {
     ImGui_ImplSDL3_ProcessEvent(&event);
-
-#ifdef __EMSCRIPTEN__
-    if (isPasted) {
-        ImGui::GetIO().AddInputCharactersUTF8(kifuStr.c_str());
-        isPasted = false;
-    }
-#endif
 }
 
 void UserInterface::CreateFrame(SDL_Texture* texture, const std::vector<std::string>& kifuStrings, int currentKifuIndex)
@@ -167,21 +157,32 @@ void UserInterface::DisplayTexture(SDL_Texture* texture, const std::vector<std::
 #endif
 
     if (ImGui::BeginPopupModal("貼り付け")) {
+#ifdef __EMSCRIPTEN__
+        ImGui::Text("棋譜をコピーして以下のキーを押してください");
+        ImGui::Text("Windows: Ctrl+V");
+        ImGui::Text("Mac: Command+V");
+
+        if (isPasted) {
+            ImGui::InputTextMultiline("##KifuText", &kifuStr);
+        }
+#else
         ImGui::Text("以下の棋譜を取り込みます");
 
-#ifndef __EMSCRIPTEN__
         const char* clipboard = ImGui::GetClipboardText();
         kifuStr = clipboard != nullptr ? clipboard : "";
-#endif
-
         ImGui::InputTextMultiline("##KifuText", &kifuStr);
+#endif
 
         if (ImGui::Button("取り込む")) {
             mPasteKifuCallback(kifuStr);
+            kifuStr.clear();
+            isPasted = false;
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();
         if (ImGui::Button("キャンセル")) {
+            kifuStr.clear();
+            isPasted = false;
             ImGui::CloseCurrentPopup();
         }
 
