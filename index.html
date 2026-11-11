@@ -261,8 +261,10 @@
         });
 
         window.addEventListener('keydown', (event) => {
-          if (event.ctrlKey && event.key == 'v') {
-            event.stopImmediatePropagation();
+          if (event.ctrlKey || event.metaKey) {
+            if (event.key == 'v') {
+              event.stopImmediatePropagation();
+            }
           }
         }), true;
 
